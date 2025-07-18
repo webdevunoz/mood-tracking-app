@@ -1,1 +1,122 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Reddit Sans Variable";
+  src: url("./assets/fonts/Reddit_Sans/RedditSans-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Reddit Sans Variable";
+  src: url("./assets/fonts/Reddit_Sans/RedditSans-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@layer utilities {
+  .text-preset-1 {
+    font-weight: 700;
+    font-size: 3.25rem; /* 52px */
+    line-height: 140%;
+    letter-spacing: -0.125rem; /* -2px */
+  }
+
+  .text-preset-2 {
+    font-weight: 700;
+    font-size: 2.5rem; /* 40px */
+    line-height: 120%;
+    letter-spacing: -0.01875rem; /* -0.3px */
+  }
+
+  .text-preset-3 {
+    font-weight: 700;
+    font-size: 2rem; /* 32px */
+    line-height: 140%;
+    letter-spacing: -0.01875rem;
+  }
+
+  .text-preset-4 {
+    font-weight: 600;
+    font-size: 1.5rem; /* 24px */
+    line-height: 140%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-4-regular {
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 140%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-5 {
+    font-weight: 600;
+    font-size: 1.25rem; /* 20px */
+    line-height: 140%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-6 {
+    font-weight: 500;
+    font-size: 1.125rem; /* 18px */
+    line-height: 120%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-6-italic {
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.125rem;
+    line-height: 130%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-6-regular {
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 140%;
+    letter-spacing: -0.01875rem;
+  }
+
+  .text-preset-7 {
+    font-weight: 400;
+    font-size: 0.9375rem; /* 15px */
+    line-height: 140%;
+    letter-spacing: -0.01875rem;
+  }
+
+  .text-preset-8 {
+    font-weight: 600;
+    font-size: 0.8125rem; /* 13px */
+    line-height: 100%;
+    letter-spacing: 0;
+  }
+
+  .text-preset-9 {
+    font-weight: 400;
+    font-size: 0.75rem; /* 12px */
+    line-height: 110%;
+    letter-spacing: 0;
+  }
+
+  @media (max-width: 767px) {
+    .text-preset-1 {
+      font-size: 2.875rem; /* 46px */
+      line-height: 120%;
+    }
+
+    .text-preset-2 {
+      font-size: 2rem; /* 32px */
+    }
+
+    .text-preset-3 {
+      font-size: 1.75rem; /* 28px */
+      line-height: 130%;
+    }
+  }
+}
