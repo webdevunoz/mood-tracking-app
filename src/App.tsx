@@ -4,7 +4,7 @@ import "./App.css";
 
 function App() {
   const element = useRoutes(routes);
-  return element;
+  return <div id="page-wrapper">{element}</div>;
 }
 
 export default App;
