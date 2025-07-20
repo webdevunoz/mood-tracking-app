@@ -1,21 +1,35 @@
 #page-wrapper {
   background-image: linear-gradient(180deg, #f5f5ff 72.99%, #e0e0ff 100%);
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-inline: var(--spacing-200);
 }
 
 .logo-wrapper {
+  margin-bottom: clamp(
+    var(--spacing-400),
+    calc((100vw - 375px) / 24.56 + 2rem),
+    var(--spacing-600)
+  );
   padding-top: var(--spacing-1000);
-  margin-bottom: var(--spacing-400);
   display: flex;
   justify-content: center;
 }
 
 .form-wrapper {
-  margin-inline: var(--spacing-200);
-  padding: var(--spacing-500) var(--spacing-200);
+  padding-block: var(--spacing-500);
+  padding-inline: clamp(
+    var(--spacing-200),
+    calc((100vw - 375px) / 24.56 + 1rem),
+    var(--spacing-400)
+  );
   background-color: white;
   border-radius: var(--radius-16);
   box-shadow: 0 8px 16px 0 rgba(32, 37, 41, 0.08);
+  max-width: 530px;
+  width: 100%;
 }
 
 .form {
