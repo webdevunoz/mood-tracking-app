@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./SignupPage.css";
 import { useState } from "react";
+import ErrorMessage from "../components/ErrorMessage";
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -44,11 +45,7 @@ const SignupPage = () => {
                 className="form-input text-preset-6-regular"
                 placeholder="name@mail.com"
               ></input>
-              {!isValid && (
-                <span className="error-email-message text-preset-9">
-                  <i className="fas fa-info-circle"></i>Invalid email format.
-                </span>
-              )}
+              {!isValid && <ErrorMessage message="Invalid email format." />}
             </div>
             <div className="input-wrapper">
               <label
@@ -72,7 +69,7 @@ const SignupPage = () => {
             >
               Sign Up
             </button>
-            <p className="text-preset-6-regular text-neutral-600 text-center">
+            <p className="form-footer-message text-preset-6-regular text-neutral-600 text-center">
               Already got an account?{" "}
               <Link to="/login" className="text-blue-600">
                 Log in.
