@@ -102,7 +102,7 @@ const OnboardingPage = () => {
           <footer>
             <button
               type="submit"
-              className="form-button text-preset-5 text-neutral-0 bg-blue-600"
+              className="button button--form text-preset-5 text-neutral-0 bg-blue-600"
             >
               Start Tracking
             </button>

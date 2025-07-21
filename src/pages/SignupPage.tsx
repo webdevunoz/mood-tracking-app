@@ -65,7 +65,7 @@ const SignupPage = () => {
             <button
               type="submit"
               onClick={() => navigate("/onboarding")}
-              className="form-button text-preset-5 text-neutral-0"
+              className="button button--form text-preset-5 text-neutral-0"
             >
               Sign Up
             </button>
