@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import "./SignupPage.css";
+import { useState } from "react";
 
 const SignupPage = () => {
+  const [emailValue, setEmailValue] = useState("");
+  const [isValid, setIsValid] = useState(true);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmailValue(value);
+    setIsValid(e.target.validity.valid); // built-in HTML5 validation
+  };
+
   return (
     <>
       <header className="logo-wrapper">
@@ -26,11 +36,18 @@ const SignupPage = () => {
                 Email address
               </label>
               <input
+                value={emailValue}
+                onChange={handleChange}
                 id="email"
                 type="email"
                 className="form-input text-preset-6-regular text-neutral-600"
                 placeholder="name@mail.com"
               ></input>
+              {!isValid && (
+                <span className="error-email-message text-preset-9">
+                  <i className="fas fa-info-circle"></i>Invalid email format.
+                </span>
+              )}
             </div>
             <div className="input-wrapper">
               <label
