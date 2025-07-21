@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignupPage.css";
 import { useState } from "react";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [emailValue, setEmailValue] = useState("");
   const [isValid, setIsValid] = useState(true);
 
@@ -40,7 +41,7 @@ const SignupPage = () => {
                 onChange={handleChange}
                 id="email"
                 type="email"
-                className="form-input text-preset-6-regular text-neutral-600"
+                className="form-input text-preset-6-regular"
                 placeholder="name@mail.com"
               ></input>
               {!isValid && (
@@ -59,14 +60,15 @@ const SignupPage = () => {
               <input
                 id="password"
                 type="password"
-                className="form-input text-preset-6-regular text-neutral-600"
+                className="form-input text-preset-6-regular"
               ></input>
             </div>
           </section>
           <footer>
             <button
               type="submit"
-              className="form-button text-preset-5 text-neutral-0 bg-blue-600"
+              onClick={() => navigate("/onboarding")}
+              className="form-button text-preset-5 text-neutral-0"
             >
               Sign Up
             </button>
