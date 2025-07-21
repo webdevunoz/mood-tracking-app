@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import "./SignupPage.css";
 import { useState } from "react";
 
-const SignupPage = () => {
+const LoginPage = () => {
   const [emailValue, setEmailValue] = useState("");
   const [isValid, setIsValid] = useState(true);
 
@@ -21,10 +20,10 @@ const SignupPage = () => {
         <form className="form">
           <header>
             <h1 className="form-heading text-preset-3 text-neutral-900">
-              Create an account
+              Welcome back!
             </h1>
             <p className="text-preset-6-regular text-neutral-600">
-              Join to track your daily mood and sleep with ease.
+              Log in to continue tracking your mood and sleep.
             </p>
           </header>
           <section>
@@ -68,12 +67,12 @@ const SignupPage = () => {
               type="submit"
               className="form-button text-preset-5 text-neutral-0 bg-blue-600"
             >
-              Sign Up
+              Log In
             </button>
             <p className="text-preset-6-regular text-neutral-600 text-center">
-              Already got an account?{" "}
-              <Link to="/login" className="text-blue-600">
-                Log in.
+              Haven't got an account?{" "}
+              <Link to="/signup" className="text-blue-600">
+                Sign up.
               </Link>
             </p>
           </footer>
@@ -83,4 +82,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default LoginPage;
