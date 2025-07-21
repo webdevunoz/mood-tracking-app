@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import "./OnboardingPage.css";
 import ErrorMessage from "../components/ErrorMessage";
+import { useNavigate } from "react-router-dom";
 
 const OnboardingPage = () => {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [previewSrc, setPreviewSrc] = useState(
@@ -102,6 +104,7 @@ const OnboardingPage = () => {
           <footer>
             <button
               type="submit"
+              onClick={() => navigate("/home")}
               className="button button--form text-preset-5 text-neutral-0 bg-blue-600"
             >
               Start Tracking
