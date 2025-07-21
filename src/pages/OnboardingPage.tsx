@@ -1,7 +1,10 @@
 import { useRef, useState } from "react";
 import "./OnboardingPage.css";
+import ErrorMessage from "../components/ErrorMessage";
 
 const OnboardingPage = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isValid, setIsValid] = useState(true);
   const [previewSrc, setPreviewSrc] = useState(
     "/src/assets/images/avatar-placeholder.svg"
   );
@@ -13,7 +16,30 @@ const OnboardingPage = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) setPreviewSrc(URL.createObjectURL(file)); //Update preview source image
+
+    if (!file) {
+      setIsValid(false);
+      setErrorMessage("Upload an image.");
+      return;
+    }
+    //250KB Max File Size Validation
+    const isUnderSizeLimit = file.size <= 250 * 1024;
+
+    //PNG or JPEG Validation
+    const isValidType = /image\/(png|jpeg)/.test(file.type);
+
+    if (!isValidType) {
+      setIsValid(false);
+      setErrorMessage("Unsupported file type. Please upload a PNG or JPEG");
+    }
+
+    if (!isUnderSizeLimit && isValidType) {
+      setIsValid(false);
+      setErrorMessage("File must be 250KB or less.");
+    }
+
+    if (isValidType && isUnderSizeLimit)
+      setPreviewSrc(URL.createObjectURL(file)); //Update preview source image
   };
 
   return (
@@ -34,7 +60,7 @@ const OnboardingPage = () => {
           <section>
             <div className="input-wrapper">
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="text-preset-6-regular text-neutral-900"
               >
                 Name
@@ -69,6 +95,7 @@ const OnboardingPage = () => {
                   onChange={handleChange}
                   className="sr-only"
                 />
+                {!isValid && <ErrorMessage message={errorMessage} />}
               </div>
             </div>
           </section>
