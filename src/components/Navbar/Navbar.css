@@ -6,7 +6,7 @@
 #nav-profile-btn {
   display: flex;
   align-items: center;
-  gap: var(spacing-125);
+  gap: var(--spacing-125);
   cursor: pointer;
 }
 
@@ -14,5 +14,5 @@
   height: 40px;
   width: 40px;
   object-fit: cover;
-  border-radius: var(radius-full);
+  border-radius: var(--radius-full);
 }
