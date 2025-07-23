@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import ProfilePopover from "../ProfilePopover/ProfilePopover";
+import SettingsModal from "../SettingsModal/SettingsModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
   const buttonRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +43,16 @@ const Navbar = () => {
           </span>
         </div>
       </nav>
-      {isMenuOpen && <ProfilePopover ref={popoverRef} />}
+      {isMenuOpen && (
+        <ProfilePopover
+          ref={popoverRef}
+          onClose={() => setIsMenuOpen(false)}
+          onSettingsClick={() => setIsSettingsOpen(true)}
+        />
+      )}
+      {isSettingsOpen && (
+        <SettingsModal onClose={() => setIsSettingsOpen(false)} />
+      )}
     </>
   );
 };

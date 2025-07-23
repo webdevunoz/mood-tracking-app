@@ -1,10 +1,18 @@
 import "./ProfilePopover.css";
+import React from "react";
+import "./ProfilePopover.css";
 
 interface ProfilePopoverProps {
   ref: React.Ref<HTMLDivElement>;
+  onClose: () => void;
+  onSettingsClick: () => void;
 }
 
-const ProfilePopover = ({ ref }: ProfilePopoverProps) => {
+const ProfilePopover = ({
+  ref,
+  onClose,
+  onSettingsClick,
+}: ProfilePopoverProps) => {
   return (
     <div className="popover-wrapper">
       <div role="menu" ref={ref} className="menu-wrapper">
@@ -14,7 +22,13 @@ const ProfilePopover = ({ ref }: ProfilePopoverProps) => {
         </div>
         <div className="menu-divider"></div>
         <div className="menu-buttons">
-          <button className="menu-button">
+          <button
+            className="menu-button"
+            onClick={() => {
+              onSettingsClick();
+              onClose();
+            }}
+          >
             <img
               src="/src/assets/images/icon-settings.svg"
               alt=""
