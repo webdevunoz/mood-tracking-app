@@ -1,15 +1,15 @@
 .upload-wrapper {
   display: flex;
-  gap: 20px;
+  gap: var(--spacing-250);
   align-items: flex-start;
-  padding-top: 4px;
+  padding-top: var(--spacing-050);
 }
 
 .upload-image {
   width: 64px;
   height: 64px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
 }
 
 .upload-content {
@@ -18,20 +18,20 @@
 }
 
 .upload-header {
-  margin-bottom: 6px;
+  margin-bottom: var(--spacing-075);
 }
 
 .upload-heading {
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-200);
 }
 
 .upload-button {
   box-shadow: inset 0 0 0 1px var(--color-neutral-300);
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: var(--radius-8);
+  padding: var(--spacing-100) var(--spacing-200);
   cursor: pointer;
   width: min-content;
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-100);
 }
 
 .upload-button:hover {

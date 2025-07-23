@@ -1,1 +1,10 @@
-
+.logo-wrapper {
+  margin-bottom: clamp(
+    var(--spacing-400),
+    calc((100vw - 375px) / 24.56 + 2rem),
+    var(--spacing-600)
+  );
+  padding-top: var(--spacing-1000);
+  display: flex;
+  justify-content: center;
+}
