@@ -4,7 +4,11 @@ import "./App.css";
 
 function App() {
   const element = useRoutes(routes);
-  return <div id="page-wrapper">{element}</div>;
+  return (
+    <div id="background-wrapper">
+      <div id="page-wrapper">{element}</div>
+    </div>
+  );
 }
 
 export default App;
