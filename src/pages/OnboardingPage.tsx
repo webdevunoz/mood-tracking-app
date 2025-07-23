@@ -4,7 +4,7 @@ import UploadImage from "../components/Form/UploadImage";
 import Logo from "../components/Logo";
 import FormHeader from "../components/Form/FormHeader/FormHeader";
 import FormField from "../components/Form/FormField/FormField";
-import FormSubmitButton from "../components/Form/FormSubmitButton/FormSubmitButton";
+import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 
 const OnboardingPage = () => {
@@ -25,10 +25,9 @@ const OnboardingPage = () => {
           <UploadImage />
         </section>
         <footer>
-          <FormSubmitButton
-            text="Start Tracking"
-            onClick={() => navigate("/home")}
-          />
+          <PrimaryButton homeButton={false} onClick={() => navigate("/home")}>
+            Start Tracking
+          </PrimaryButton>
         </footer>
       </FormWrapper>
     </>

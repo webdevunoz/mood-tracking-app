@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignupPage.css";
 import FormField from "../components/Form/FormField/FormField";
 import FormHeader from "../components/Form/FormHeader/FormHeader";
-import FormSubmitButton from "../components/Form/FormSubmitButton/FormSubmitButton";
+import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import Logo from "../components/Logo";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 
@@ -24,10 +24,12 @@ const SignupPage = () => {
           <FormField label="Password" type="password" />
         </section>
         <footer>
-          <FormSubmitButton
-            text="Sign Up"
+          <PrimaryButton
+            homeButton={false}
             onClick={() => navigate("/onboarding")}
-          />
+          >
+            Sign Up
+          </PrimaryButton>
           <p className="mt-[margin-top:var(--spacing-250)] text-preset-6-regular text-neutral-600 text-center">
             Already got an account?{" "}
             <Link to="/login" className="text-blue-600">

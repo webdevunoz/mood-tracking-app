@@ -1,9 +1,9 @@
 import FormField from "../Form/FormField/FormField";
 import FormHeader from "../Form/FormHeader/FormHeader";
-import FormSubmitButton from "../Form/FormSubmitButton/FormSubmitButton";
 import FormWrapper from "../Form/FormWrapper/FormWrapper";
 import UploadImage from "../Form/UploadImage";
 import "./SettingsModal.css";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -23,7 +23,9 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
             <UploadImage initialSrc="/src/assets/images/avatar-lisa.jpg" />
           </section>
           <footer>
-            <FormSubmitButton text={"Save changes"} onClick={onClose} />
+            <PrimaryButton homeButton={true} onClick={onClose}>
+              Save changes
+            </PrimaryButton>
           </footer>
         </FormWrapper>
       </div>

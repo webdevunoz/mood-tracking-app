@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import FormHeader from "../components/Form/FormHeader/FormHeader";
 import FormField from "../components/Form/FormField/FormField";
-import FormSubmitButton from "../components/Form/FormSubmitButton/FormSubmitButton";
+import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 
 const LoginPage = () => {
@@ -21,7 +21,9 @@ const LoginPage = () => {
           <FormField label="Password" type="password" />
         </section>
         <footer>
-          <FormSubmitButton text="Log In" onClick={() => null} />
+          <PrimaryButton homeButton={false} onClick={() => null}>
+            Log In
+          </PrimaryButton>
           <p className="mt-[margin-top:var(--spacing-250)] text-preset-6-regular text-neutral-600 text-center">
             Haven't got an account?{" "}
             <Link to="/signup" className="text-blue-600">

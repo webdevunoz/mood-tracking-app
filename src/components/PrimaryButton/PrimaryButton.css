@@ -1,4 +1,4 @@
-.submit-button {
+.button--primary {
   padding: var(--spacing-150) var(--spacing-400);
   width: 100%;
   border-radius: var(--radius-10);
@@ -7,10 +7,14 @@
   background-color: var(--color-blue-600);
 }
 
-.submit-button:hover {
+.button--home {
+  padding: var(--spacing-200) var(--spacing-400);
+}
+
+.button--primary:hover {
   background-color: var(--color-blue-700);
 }
 
-.submit-button:focus {
+.button--primary:focus {
   outline: 2.5px solid var(--color-blue-600);
 }
