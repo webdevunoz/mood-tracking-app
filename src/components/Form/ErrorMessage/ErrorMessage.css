@@ -1,0 +1,7 @@
+.error-message {
+  color: var(--color-red-700);
+}
+
+.error-message i {
+  padding-right: var(--spacing-075);
+}

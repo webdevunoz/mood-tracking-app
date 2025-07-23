@@ -1,0 +1,16 @@
+.submit-button {
+  padding: var(--spacing-150) var(--spacing-400);
+  width: 100%;
+  border-radius: var(--radius-10);
+  cursor: pointer;
+  outline-offset: 3px;
+  background-color: var(--color-blue-600);
+}
+
+.submit-button:hover {
+  background-color: var(--color-blue-700);
+}
+
+.submit-button:focus {
+  outline: 2.5px solid var(--color-blue-600);
+}

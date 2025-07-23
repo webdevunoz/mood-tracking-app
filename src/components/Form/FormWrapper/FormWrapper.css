@@ -1,0 +1,67 @@
+.form-wrapper.signup,
+.form-wrapper.login,
+.form-wrapper.onboarding {
+  max-width: 530px;
+  padding: var(--spacing-500) var(--spacing-200);
+}
+
+.form.signup,
+.form.login,
+.form.onboarding {
+  gap: var(--spacing-400);
+}
+
+.form-wrapper.settings {
+  max-width: 600px;
+  padding: var(--spacing-500) var(--spacing-250);
+  position: relative;
+}
+
+.form.settings {
+  gap: var(--spacing-300);
+}
+
+.form-wrapper {
+  background-color: white;
+  border-radius: var(--radius-16);
+  box-shadow: 0 8px 16px 0 rgba(32, 37, 41, 0.08);
+  max-width: 530px;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-close {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 17.5px;
+  right: 16.5px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .icon-close {
+    width: 15px;
+    height: 15px;
+    top: 30px;
+    right: 30px;
+  }
+
+  .form-wrapper.signup,
+  .form-wrapper.login,
+  .form-wrapper.onboarding {
+    padding-inline: var(--spacing-400);
+  }
+
+  .form-wrapper.settings {
+    padding: var(--spacing-600) var(--spacing-500);
+  }
+
+  .form.settings {
+    gap: var(--spacing-400);
+  }
+}
