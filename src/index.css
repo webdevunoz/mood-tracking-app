@@ -178,6 +178,22 @@
     line-height: 110%;
     letter-spacing: 0;
   }
+
+  @media (min-width: 768px) {
+    .md\:text-preset-1 {
+      font-weight: 700;
+      font-size: 3.25rem; /* 52px */
+      line-height: 140%;
+      letter-spacing: -0.125rem; /* -2px */
+    }
+
+    .md\:text-preset-3 {
+      font-weight: 700;
+      font-size: 2rem; /* 32px */
+      line-height: 140%;
+      letter-spacing: -0.01875rem;
+    }
+  }
 }
 
 /* Update tailwind base unit for spacing to match 16px(1 rem) */

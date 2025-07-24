@@ -14,7 +14,7 @@ const PrimaryButton = ({
   return (
     <button
       onClick={onClick}
-      className={`button--primary text-neutral-0${
+      className={`text-preset-5 button--primary${
         homeButton ? " button--home" : ""
       }`}
     >
