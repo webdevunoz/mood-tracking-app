@@ -14,3 +14,9 @@
   box-sizing: content-box;
   padding-bottom: var(--spacing-1000);
 }
+
+@media (min-width: 768px) {
+  #page-wrapper {
+    padding-inline: var(--spacing-400);
+  }
+}

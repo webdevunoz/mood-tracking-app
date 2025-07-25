@@ -1,0 +1,30 @@
+.average-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  overflow: hidden;
+}
+
+.average-details {
+  background-color: var(--color-blue-100);
+  border-radius: var(--radius-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-250) var(--spacing-200);
+  overflow: hidden;
+  position: relative;
+  height: 150px;
+  justify-content: center;
+}
+
+.average-comparison-text {
+  opacity: 0.7;
+}
+
+.average-pattern-img {
+  position: absolute;
+  top: -38px;
+  left: calc(100% - 61px);
+  overflow: hidden;
+}

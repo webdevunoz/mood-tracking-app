@@ -21,6 +21,11 @@
   text-align: center;
 }
 
+#avg-mood-section {
+  padding: var(--spacing-250) var(--spacing-200);
+  gap: var(--spacing-300);
+}
+
 @media (min-width: 768px) {
   #home-header {
     padding-top: var(--spacing-500);
