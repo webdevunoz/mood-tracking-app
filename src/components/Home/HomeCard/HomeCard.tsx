@@ -1,7 +1,7 @@
 import "./HomeCard.css";
 
 interface HomeCardProps {
-  variant: string;
+  variant: "averages" | "trends" | "feeling" | "sleep" | "reflection";
   children: React.ReactNode;
 }
 

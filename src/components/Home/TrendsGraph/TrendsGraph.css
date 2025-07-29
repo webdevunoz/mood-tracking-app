@@ -1,0 +1,40 @@
+.trends-content {
+  display: flex;
+  gap: var(--spacing-200);
+  position: relative;
+}
+
+.sleep-bar {
+  display: flex;
+  flex-direction: column;
+  height: 312px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.sleep-bar-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-500);
+}
+
+.sleep-bar-details {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-075);
+}
+
+.sleep-bar-icon {
+  width: 10px;
+  height: auto;
+}
+
+.trend-line {
+  position: absolute;
+  opacity: 0.3;
+  background-color: var(--color-blue-100);
+  width: calc(100% - 85px);
+  height: 1px;
+  left: 85px;
+}

@@ -1,0 +1,51 @@
+.scroll-content {
+  width: 100%;
+}
+
+/* hide the items as they scroll within this wrapper box */
+.scroll-items-wrapper {
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.scroll-items {
+  display: flex;
+  gap: var(--spacing-200);
+  position: absolute;
+}
+
+.scroll-track {
+  position: relative;
+  height: 2px;
+  margin-top: var(--spacing-100);
+  border-radius: 4px;
+  width: 100%;
+}
+
+.scroll-thumb {
+  position: relative;
+  height: 2px;
+  background: var(--color-blue-200);
+  border-radius: var(--radius-full);
+}
+
+.scroll-thumb-area {
+  position: relative;
+  height: 20px;
+  top: -8px;
+  left: -4px;
+  height: 20px;
+  cursor: grab;
+  width: calc(100% + 8px);
+}
+
+.scroll-thumb:active {
+  cursor: grabbing;
+}
+
+@media (min-width: 1024px) {
+  .scroll-items {
+    gap: var(--spacing-225);
+  }
+}

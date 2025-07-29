@@ -13,7 +13,7 @@
 
 .card--trends {
   padding: var(--spacing-250) var(--spacing-200);
-  gap: var(--spacing-250);
+  gap: var(--spacing-400);
 }
 
 /* Tablet */
@@ -23,7 +23,7 @@
   }
 
   .card--trends {
-    padding: var(--spacing-400) var(--spacing-250);
+    padding: var(--spacing-300) var(--spacing-300);
   }
 }
 

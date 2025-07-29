@@ -4,6 +4,7 @@ import TodaysDate from "../../components/Home/TodaysDate";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import HomeCard from "../../components/Home/HomeCard/HomeCard";
 import AverageContent from "../../components/Home/AverageContent/AverageContent";
+import TrendsGraph from "../../components/Home/TrendsGraph/TrendsGraph";
 
 const HomePage = () => {
   return (
@@ -26,11 +27,19 @@ const HomePage = () => {
           Log today's mood
         </PrimaryButton>
       </header>
-      <main>
+      <main id="home-main">
         <section>
           <HomeCard variant="averages">
             <AverageContent variant="mood" />
             <AverageContent variant="sleep" />
+          </HomeCard>
+        </section>
+        <section>
+          <HomeCard variant="trends">
+            <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
+              Mood and sleep trends
+            </h3>
+            <TrendsGraph />
           </HomeCard>
         </section>
       </main>
