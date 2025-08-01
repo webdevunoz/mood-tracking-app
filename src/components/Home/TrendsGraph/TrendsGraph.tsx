@@ -1,73 +1,13 @@
-import React from "react";
 import "./TrendsGraph.css";
 import MoodBar from "./MoodBar/MoodBar";
 import MoodScrollBar from "./MoodScrollBar/MoodScrollBar";
+import type { logData } from "../../../App";
 
-export type logData = {
-  date: string;
-  hours: string;
-  mood: string;
-};
+interface TrendsGraph {
+  dataLogs: logData[];
+}
 
-const dataLogs: logData[] = [
-  {
-    date: "March 31",
-    hours: "5-6",
-    mood: "Sad",
-  },
-  {
-    date: "April 02",
-    hours: "7-8",
-    mood: "Happy",
-  },
-  {
-    date: "April 04",
-    hours: "3-4",
-    mood: "Very Sad",
-  },
-  {
-    date: "April 06",
-    hours: "5-6",
-    mood: "Neutral",
-  },
-  {
-    date: "April 07",
-    hours: "7-8",
-    mood: "Happy",
-  },
-  {
-    date: "April 09",
-    hours: "9+",
-    mood: "Very Happy",
-  },
-  {
-    date: "April 10",
-    hours: "3-4",
-    mood: "Sad",
-  },
-  {
-    date: "April 12",
-    hours: "7-8",
-    mood: "Neutral",
-  },
-  {
-    date: "April 13",
-    hours: "7-8",
-    mood: "Happy",
-  },
-  {
-    date: "April 14",
-    hours: "3-4",
-    mood: "Very Sad",
-  },
-  {
-    date: "April 15",
-    hours: "9+",
-    mood: "Very Happy",
-  },
-];
-
-export const TrendsGraph: React.FC = () => {
+const TrendsGraph = ({ dataLogs }: TrendsGraph) => {
   const yAxisLabels = ["9+", "7-8", "5-6", "3-4", "0-2"];
 
   return (
