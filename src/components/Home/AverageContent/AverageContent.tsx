@@ -1,6 +1,7 @@
 import "./AverageContent.css";
 import type { logData } from "../../../App";
 import { useEffect, useState } from "react";
+import StyledIcon from "../../StyledIcon";
 
 interface AverageContentProps {
   variant: "mood" | "sleep";
@@ -8,19 +9,23 @@ interface AverageContentProps {
 }
 
 const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
-  const [status, setStatus] = useState<string>(
-    variant === "mood" ? "Keep tracking!" : "Not enough data yet!"
-  );
-  const [statusIcon, setStatusIcon] = useState("");
-  const [statusBgColor, setStatusBgColor] = useState(`var(--color-blue-100)`);
-  const [comparisonText, setComparisonText] = useState(
+  const initialStatus =
+    variant === "mood" ? "Keep tracking!" : "Not enough data yet!";
+  const initialIcon = "";
+  const inititalBgColor = `var(--color-blue-100)`;
+  const initialComparisonText =
     variant === "mood"
       ? "Log 5 check-ins to see your average mood."
-      : "Track 5 nights to view average sleep."
-  );
+      : "Track 5 nights to view average sleep.";
 
-  const [trendIcon, setTrendIcon] = useState("");
+  const [status, setStatus] = useState<string>(initialStatus);
+  const [statusIcon, setStatusIcon] = useState(initialIcon);
+  const [bgColor, setBgColor] = useState(inititalBgColor);
+  const [trendIcon, setTrendIcon] = useState(initialIcon);
+  const [comparisonText, setComparisonText] = useState(initialComparisonText);
+  const [enoughData, setEnoughData] = useState(false);
 
+  /* String to Number Map for Averaging Moods */
   const moodMap: Record<string, number> = {
     "Very Happy": 4,
     Happy: 3,
@@ -29,7 +34,17 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
     "Very Sad": 0,
   };
 
-  const checkAvgMood = (offsetNum = 5) => {
+  /* String to Number Map for Averaging Hours */
+  const hoursMap: Record<string, number> = {
+    "9+": 4,
+    "7-8": 3,
+    "5-6": 2,
+    "3-4": 1,
+    "0-2": 0,
+  };
+
+  /* Checks the Average of the last 5, or previous 5 available logs */
+  const checkAvg = (map: Record<string, number>, offsetNum = 5) => {
     let sum = 0,
       count = 0;
     for (
@@ -37,54 +52,93 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
       i < dataLogs.length - (offsetNum - 5);
       i++
     ) {
-      const val = moodMap[dataLogs[i].mood];
+      let val;
+      if (variant === "mood") val = map[dataLogs[i].mood!];
+      else val = map[dataLogs[i].hours!];
+
       if (typeof val === "number") {
         sum += val;
         count++;
       }
     }
-    const avgMood = Math.round(sum / (count || 1));
-    return avgMood;
+    const avg = Math.round(sum / (count || 1));
+    return avg;
   };
 
   useEffect(() => {
     if (dataLogs)
       if (dataLogs.length >= 5) {
-        const avgMoodValue = checkAvgMood();
-        const avgMood =
-          Object.keys(moodMap).find((key) => moodMap[key] === avgMoodValue) ??
-          "";
-        setStatus(avgMood);
-        const kebabIconName = (s: string) =>
-          s.replace(/\s+/g, "-").toLowerCase();
-        const iconFileName = `icon-${kebabIconName(avgMood)}-white.svg`;
+        /* If there is at least 5 logs */
+        setEnoughData(true);
+        /* Get and set the average status */
+        let avgStatus = "";
+        let avgStatusValue = 0;
+        if (variant === "mood") {
+          avgStatusValue = checkAvg(moodMap);
+          avgStatus =
+            Object.keys(moodMap).find(
+              (key) => moodMap[key] === avgStatusValue
+            ) ?? "";
+        } else {
+          avgStatusValue = checkAvg(hoursMap);
+          avgStatus =
+            (Object.keys(hoursMap).find(
+              (key) => hoursMap[key] === avgStatusValue
+            ) ?? "") + " Hours";
+        }
+        setStatus(avgStatus);
+
+        /* Get and set the status icon */
+        let iconFileName = "";
+        if (variant === "mood") {
+          const kebabIconName = (s: string) =>
+            s.replace(/\s+/g, "-").toLowerCase();
+          iconFileName = `icon-${kebabIconName(avgStatus)}-white.svg`;
+        } else iconFileName = `icon-sleep.svg`;
+
         setStatusIcon(iconFileName);
-        /* Set color of mood bar based on the mood of the day */
+
+        /* Get and set background color of average content */
         let moodColor;
-        if (avgMood === "Very Happy") moodColor = "var(--color-amber-300)";
-        else if (avgMood === "Happy") moodColor = "var(--color-green-300)";
-        else if (avgMood === "Neutral") moodColor = "var(--color-blue-300)";
-        else if (avgMood === "Sad") moodColor = "var(--color-indigo-200)";
-        else moodColor = "var(--color-red-300)";
-        setStatusBgColor(moodColor);
+        if (variant === "mood")
+          if (avgStatus === "Very Happy") moodColor = "var(--color-amber-300)";
+          else if (avgStatus === "Happy") moodColor = "var(--color-green-300)";
+          else if (avgStatus === "Neutral") moodColor = "var(--color-blue-300)";
+          else if (avgStatus === "Sad") moodColor = "var(--color-indigo-200)";
+          else moodColor = "var(--color-red-300)";
+        else moodColor = "var(--color-blue-600";
+
+        setBgColor(moodColor);
+
+        /* Get and set average comparison text and icon */
         if (dataLogs.length >= 6) {
-          const prevAvgMoodValue = checkAvgMood(6);
+          let prevAvgStatusValue;
+          if (variant === "mood") prevAvgStatusValue = checkAvg(moodMap, 6);
+          else prevAvgStatusValue = checkAvg(hoursMap, 6);
+
           let text = "";
-
-          console.log(avgMoodValue, prevAvgMoodValue);
-
-          if (avgMoodValue === prevAvgMoodValue) {
+          let icon = "";
+          if (avgStatusValue === prevAvgStatusValue) {
             text = "Same as the previous 5 check-ins";
-            setTrendIcon("same");
-          } else if (avgMoodValue < prevAvgMoodValue) {
+            icon = "same";
+          } else if (avgStatusValue < prevAvgStatusValue) {
             text = "Decrease from the previous 5 check-ins";
-            setTrendIcon("decrease");
+            icon = "decrease";
           } else {
             text = "Increase from the previous 5 check-ins";
-            setTrendIcon("increase");
+            icon = "increase";
           }
+          setTrendIcon(icon);
           setComparisonText(text);
         }
+      } else {
+        /* Reset States if not enough data */
+        setStatus(initialStatus);
+        setStatusIcon(initialIcon);
+        setBgColor(inititalBgColor);
+        setTrendIcon(initialIcon);
+        setComparisonText(initialComparisonText);
+        setEnoughData(false);
       }
   }, [dataLogs]);
 
@@ -105,29 +159,46 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
       </div>
       <div
         className="average-details"
-        style={{ backgroundColor: `${statusBgColor}` }}
+        style={{ backgroundColor: `${bgColor}` }}
       >
         <div className="average-status">
           {statusIcon && (
-            <img
-              className="average-mood-icon"
+            <StyledIcon
               src={`/src/assets/images/${statusIcon}`}
-              alt={`A ${status} icon`}
+              className="average-status-icon"
+              fill={variant === "sleep" ? "var(--color-neutral-0)" : undefined}
+              opacity={variant === "sleep" ? "0.7" : "1.0"}
             />
           )}
-          <h4 className="text-preset-4 text-neutral-900">{status}</h4>
+          <h4
+            className="text-preset-4"
+            style={{
+              color:
+                variant === "sleep" && enoughData
+                  ? "var(--color-neutral-0)"
+                  : "var(--color-neutral-900)",
+            }}
+          >
+            {status}
+          </h4>
         </div>
-        <div className="average-mood-comparison">
+        <div className="average-trend-comparison">
           {trendIcon && (
-            <img
-              className="average-trend-icon"
+            <StyledIcon
               src={`/src/assets/images/icon-trend-${trendIcon}.svg`}
-              alt=""
+              fill={variant === "sleep" ? "var(--color-neutral-0)" : ""}
+              opacity={variant === "sleep" ? "0.7" : "1.0"}
             />
           )}
           <p
-            className="text-preset-7 text-neutral-900"
-            style={{ opacity: `${trendIcon ? 1 : 0.7}` }}
+            className="text-preset-7"
+            style={{
+              color:
+                variant === "sleep" && enoughData
+                  ? "var(--color-neutral-0)"
+                  : "var(--color-neutral-900)",
+              opacity: variant === "sleep" ? "0.7" : "1.0",
+            }}
           >
             {comparisonText}
           </p>

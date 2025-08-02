@@ -19,11 +19,18 @@
 
 .average-status {
   display: flex;
+  align-items: center;
   gap: var(--spacing-150);
 }
 
-.average-mood-comparison {
+.average-status-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.average-trend-comparison {
   display: flex;
+  align-items: center;
   gap: var(--spacing-100);
 }
 
