@@ -6,7 +6,6 @@
 }
 
 .average-details {
-  background-color: var(--color-blue-100);
   border-radius: var(--radius-16);
   display: flex;
   flex-direction: column;
@@ -18,8 +17,18 @@
   justify-content: center;
 }
 
-.average-comparison-text {
-  opacity: 0.7;
+.average-status {
+  display: flex;
+  gap: var(--spacing-150);
+}
+
+.average-mood-comparison {
+  display: flex;
+  gap: var(--spacing-100);
+}
+
+.average-trend-icon {
+  width: 15px;
 }
 
 .average-pattern-img {

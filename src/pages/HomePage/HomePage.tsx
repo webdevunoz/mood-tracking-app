@@ -89,8 +89,8 @@ const HomePage = () => {
       <main id="home-main">
         <section>
           <HomeCard variant="averages">
-            <AverageContent variant="mood" />
-            <AverageContent variant="sleep" />
+            <AverageContent variant="mood" dataLogs={dataLogs} />
+            <AverageContent variant="sleep" dataLogs={dataLogs} />
           </HomeCard>
         </section>
         <section>
