@@ -42,6 +42,9 @@
   --color-green-300: #89e780;
   --color-amber-300: #ffc97c;
 
+  /* Light Gradient */
+  --light-gradient: linear-gradient(180deg, #f5f5ff 72.99%, #e0e0ff 100%);
+
   /* Spacing */
   --spacing-0: 0; /* 0px */
   --spacing-025: 0.125rem; /* 2px */
@@ -186,6 +189,13 @@
       font-size: 3.25rem; /* 52px */
       line-height: 140%;
       letter-spacing: -0.125rem; /* -2px */
+    }
+
+    .md\:text-preset-2 {
+      font-weight: 700;
+      font-size: 2.5rem; /* 40px */
+      line-height: 120%;
+      letter-spacing: -0.01875rem; /* -0.3px */
     }
 
     .md\:text-preset-3 {
