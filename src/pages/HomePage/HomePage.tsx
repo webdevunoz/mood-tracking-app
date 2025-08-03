@@ -1,11 +1,13 @@
 import "./HomePage.css";
-import NavbarComponent from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import TodaysDate from "../../components/Home/TodaysDate";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import HomeCard from "../../components/Home/HomeCard/HomeCard";
 import AverageContent from "../../components/Home/AverageContent/AverageContent";
 import TrendsGraph from "../../components/Home/TrendsGraph/TrendsGraph";
 import type { logData } from "../../App";
+import LogMoodStep1 from "../../components/Home/LogMood/LogMoodStep1/LogMoodStep1";
+import { useState } from "react";
 
 const dataLogs: logData[] = [
   {
@@ -66,43 +68,53 @@ const dataLogs: logData[] = [
 ];
 
 const HomePage = () => {
+  const [isLogMoodOpen, setIsLogMoodOpen] = useState(false);
+
   return (
-    <div id="home-wrapper">
-      <header id="home-header">
-        <NavbarComponent />
-        <section id="home-heading">
-          <h3
-            id="heading-greet"
-            className="text-preset-3-mobile md:text-preset-3 text-blue-600"
-          >
-            Hello, Lisa!
-          </h3>
-          <h1 className="text-preset-1-mobile md:text-preset-1 text-neutral-900">
-            How are you feeling today?
-          </h1>
-          <TodaysDate />
-        </section>
-        <PrimaryButton homeButton={true} onClick={() => null}>
-          Log today's mood
-        </PrimaryButton>
-      </header>
-      <main id="home-main">
-        <section>
-          <HomeCard variant="averages">
-            <AverageContent variant="mood" dataLogs={dataLogs} />
-            <AverageContent variant="sleep" dataLogs={dataLogs} />
-          </HomeCard>
-        </section>
-        <section>
-          <HomeCard variant="trends">
-            <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
-              Mood and sleep trends
+    <>
+      <div id="home-wrapper">
+        <header id="home-header">
+          <Navbar />
+          <section id="home-heading">
+            <h3
+              id="heading-greet"
+              className="text-preset-3-mobile md:text-preset-3 text-blue-600"
+            >
+              Hello, Lisa!
             </h3>
-            <TrendsGraph dataLogs={dataLogs} />
-          </HomeCard>
-        </section>
-      </main>
-    </div>
+            <h1 className="text-preset-1-mobile md:text-preset-1 text-neutral-900">
+              How are you feeling today?
+            </h1>
+            <TodaysDate />
+          </section>
+          <PrimaryButton
+            homeButton={true}
+            onClick={() => setIsLogMoodOpen(true)}
+          >
+            Log today's mood
+          </PrimaryButton>
+        </header>
+        <main id="home-main">
+          <section>
+            <HomeCard variant="averages">
+              <AverageContent variant="mood" dataLogs={dataLogs} />
+              <AverageContent variant="sleep" dataLogs={dataLogs} />
+            </HomeCard>
+          </section>
+          <section>
+            <HomeCard variant="trends">
+              <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
+                Mood and sleep trends
+              </h3>
+              <TrendsGraph dataLogs={dataLogs} />
+            </HomeCard>
+          </section>
+        </main>
+      </div>
+      {isLogMoodOpen && (
+        <LogMoodStep1 onClose={() => setIsLogMoodOpen(false)} />
+      )}
+    </>
   );
 };
 

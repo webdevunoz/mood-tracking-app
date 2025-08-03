@@ -21,8 +21,17 @@
   gap: var(--spacing-300);
 }
 
+.form-wrapper.log-mood {
+  padding: var(--spacing-400) var(--spacing-250);
+  max-width: 600px;
+  position: relative;
+}
+
+.form.log-mood {
+  gap: var(--spacing-300);
+}
+
 .form-wrapper {
-  background-color: white;
   border-radius: var(--radius-16);
   box-shadow: 0 8px 16px 0 rgba(32, 37, 41, 0.08);
   max-width: 530px;
@@ -61,7 +70,15 @@
     padding: var(--spacing-600) var(--spacing-500);
   }
 
+  .form-wrapper.log-mood {
+    padding: var(--spacing-600) var(--spacing-500);
+  }
+
   .form.settings {
+    gap: var(--spacing-400);
+  }
+
+  .form-log-mood {
     gap: var(--spacing-400);
   }
 }
