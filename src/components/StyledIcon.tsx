@@ -33,7 +33,7 @@ const StyledIcon = ({
 
         setSvgContent(updatedData);
       });
-  }, [src, fill]);
+  }, [src, className, fill]);
 
   return (
     <span
