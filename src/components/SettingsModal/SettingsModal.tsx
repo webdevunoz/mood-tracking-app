@@ -23,7 +23,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
             <UploadImage initialSrc="/src/assets/images/avatar-lisa.jpg" />
           </section>
           <footer>
-            <PrimaryButton homeButton={true} onClick={onClose}>
+            <PrimaryButton logButton={false} onClick={onClose}>
               Save changes
             </PrimaryButton>
           </footer>

@@ -14,3 +14,9 @@
   justify-content: center;
   margin-inline: var(--spacing-250);
 }
+
+@media (min-width: 768px) {
+  .modal-wrapper {
+    top: 83px;
+  }
+}

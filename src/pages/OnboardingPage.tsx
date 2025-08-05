@@ -25,7 +25,7 @@ const OnboardingPage = () => {
           <UploadImage />
         </section>
         <footer>
-          <PrimaryButton homeButton={false} onClick={() => navigate("/home")}>
+          <PrimaryButton logButton={false} onClick={() => navigate("/home")}>
             Start Tracking
           </PrimaryButton>
         </footer>

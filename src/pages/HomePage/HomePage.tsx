@@ -6,8 +6,8 @@ import HomeCard from "../../components/Home/HomeCard/HomeCard";
 import AverageContent from "../../components/Home/AverageContent/AverageContent";
 import TrendsGraph from "../../components/Home/TrendsGraph/TrendsGraph";
 import type { logData } from "../../App";
-import LogMoodStep1 from "../../components/Home/LogMood/LogMoodStep1/LogMoodStep1";
 import { useState } from "react";
+import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
 
 const dataLogs: logData[] = [
   {
@@ -88,7 +88,7 @@ const HomePage = () => {
             <TodaysDate />
           </section>
           <PrimaryButton
-            homeButton={true}
+            logButton={true}
             onClick={() => setIsLogMoodOpen(true)}
           >
             Log today's mood
@@ -111,9 +111,7 @@ const HomePage = () => {
           </section>
         </main>
       </div>
-      {isLogMoodOpen && (
-        <LogMoodStep1 onClose={() => setIsLogMoodOpen(false)} />
-      )}
+      {isLogMoodOpen && <LogMoodForm onClose={() => setIsLogMoodOpen(false)} />}
     </>
   );
 };

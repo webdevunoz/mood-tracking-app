@@ -3,21 +3,25 @@ import "./PrimaryButton.css";
 interface PrimaryButtonProps {
   children: React.ReactNode;
   textClass?: string;
-  homeButton: boolean;
+  logButton: boolean;
   onClick: () => void;
 }
 
 const PrimaryButton = ({
   children,
   textClass = "text-preset-5",
-  homeButton,
+  logButton,
   onClick,
 }: PrimaryButtonProps) => {
   return (
     <button
-      onClick={onClick}
+      type="submit"
+      onClick={(e) => {
+        onClick();
+        e.preventDefault();
+      }}
       className={`${textClass} button--primary${
-        homeButton ? " button--home" : ""
+        logButton ? " button--log" : ""
       }`}
     >
       {children}
