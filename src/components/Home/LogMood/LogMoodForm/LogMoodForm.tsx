@@ -4,6 +4,7 @@ import LogMoodStep1 from "../LogMoodStep1/LogMoodStep1";
 import "./LogMoodForm.css";
 import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
 import LogMoodStep2 from "../LogMoodStep2/LogMoodStep2";
+import LogMoodStep3 from "../LogMoodStep3/LogMoodStep3";
 
 interface LogMoodFormProps {
   onClose: () => void;
@@ -41,11 +42,17 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
             <LogMoodStep1 />
           ) : stepNum === 2 ? (
             <LogMoodStep2 />
+          ) : stepNum === 3 ? (
+            <LogMoodStep3 />
           ) : null}
           <PrimaryButton
             textClass="text-preset-4"
+            homeButton={true}
             logButton={false}
-            onClick={() => setStepNum(stepNum + 1)}
+            onClick={(e) => {
+              setStepNum(stepNum + 1);
+              e.currentTarget.blur();
+            }}
           >
             Continue
           </PrimaryButton>

@@ -183,6 +183,14 @@
     letter-spacing: 0;
   }
 
+  .placeholder\:text-preset-6-italic::placeholder {
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.125rem;
+    line-height: 130%;
+    letter-spacing: 0;
+  }
+
   @media (min-width: 768px) {
     .md\:text-preset-1 {
       font-weight: 700;
