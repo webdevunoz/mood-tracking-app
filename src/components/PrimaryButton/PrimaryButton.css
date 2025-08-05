@@ -8,8 +8,11 @@
   color: var(--color-neutral-0);
 }
 
-.button--log {
+.button--home {
   padding: var(--spacing-200) var(--spacing-400);
+}
+
+.button--log {
   max-width: 226px;
   margin: 0 auto;
 }

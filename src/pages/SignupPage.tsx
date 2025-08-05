@@ -26,6 +26,7 @@ const SignupPage = () => {
         <footer>
           <PrimaryButton
             logButton={false}
+            homeButton={false}
             onClick={() => navigate("/onboarding")}
           >
             Sign Up

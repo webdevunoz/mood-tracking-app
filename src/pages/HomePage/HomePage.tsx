@@ -89,6 +89,7 @@ const HomePage = () => {
           </section>
           <PrimaryButton
             logButton={true}
+            homeButton={true}
             onClick={() => setIsLogMoodOpen(true)}
           >
             Log today's mood

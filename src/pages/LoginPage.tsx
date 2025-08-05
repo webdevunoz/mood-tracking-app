@@ -21,7 +21,11 @@ const LoginPage = () => {
           <FormField label="Password" type="password" />
         </section>
         <footer>
-          <PrimaryButton homeButton={false} onClick={() => null}>
+          <PrimaryButton
+            logButton={false}
+            homeButton={false}
+            onClick={() => null}
+          >
             Log In
           </PrimaryButton>
           <p className="mt-[margin-top:var(--spacing-250)] text-preset-6-regular text-neutral-600 text-center">
