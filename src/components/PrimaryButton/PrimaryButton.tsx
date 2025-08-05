@@ -20,7 +20,6 @@ const PrimaryButton = ({
       type="submit"
       onClick={(e) => {
         onClick(e);
-        e.preventDefault();
       }}
       className={`${textClass} button--primary${
         logButton ? " button--log" : ""

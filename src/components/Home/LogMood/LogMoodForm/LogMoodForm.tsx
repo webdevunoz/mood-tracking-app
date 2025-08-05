@@ -5,15 +5,17 @@ import "./LogMoodForm.css";
 import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
 import LogMoodStep2 from "../LogMoodStep2/LogMoodStep2";
 import LogMoodStep3 from "../LogMoodStep3/LogMoodStep3";
+import LogMoodStep4 from "../LogMoodStep4/LogMoodStep4";
 
 interface LogMoodFormProps {
   onClose: () => void;
 }
 
 const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
+  const FORM_STEPS = 4;
   const [stepNum, setStepNum] = useState(1);
   const progressSpans = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < FORM_STEPS; i++) {
     progressSpans.push(
       <span
         key={i}
@@ -24,6 +26,14 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
       ></span>
     );
   }
+
+  const handleFormClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (stepNum < FORM_STEPS) {
+      setStepNum(stepNum + 1);
+      e.preventDefault();
+      e.currentTarget.blur();
+    }
+  };
 
   return (
     <div className="log-mood-overlay">
@@ -44,17 +54,18 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
             <LogMoodStep2 />
           ) : stepNum === 3 ? (
             <LogMoodStep3 />
+          ) : stepNum === 4 ? (
+            <LogMoodStep4 />
           ) : null}
           <PrimaryButton
             textClass="text-preset-4"
             homeButton={true}
             logButton={false}
             onClick={(e) => {
-              setStepNum(stepNum + 1);
-              e.currentTarget.blur();
+              handleFormClick(e);
             }}
           >
-            Continue
+            {stepNum !== FORM_STEPS ? "Continue" : "Submit"}
           </PrimaryButton>
         </FormWrapper>
       </div>
