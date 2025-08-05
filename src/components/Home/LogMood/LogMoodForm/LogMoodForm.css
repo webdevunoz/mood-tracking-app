@@ -26,3 +26,9 @@
   background-color: var(--color-blue-200);
   border-radius: var(--radius-full);
 }
+
+@media (min-width: 768px) {
+  .log-mood-wrapper {
+    top: 83px;
+  }
+}

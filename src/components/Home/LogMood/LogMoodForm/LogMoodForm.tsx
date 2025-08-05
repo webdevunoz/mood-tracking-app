@@ -1,13 +1,16 @@
+import { useState } from "react";
 import FormWrapper from "../../../Form/FormWrapper/FormWrapper";
+import LogMoodStep1 from "../LogMoodStep1/LogMoodStep1";
 import "./LogMoodForm.css";
+import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
+import LogMoodStep2 from "../LogMoodStep2/LogMoodStep2";
 
 interface LogMoodFormProps {
-  stepNum: number;
   onClose: () => void;
-  children: React.ReactNode;
 }
 
-const LogMoodForm = ({ stepNum, onClose, children }: LogMoodFormProps) => {
+const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
+  const [stepNum, setStepNum] = useState(1);
   const progressSpans = [];
   for (let i = 0; i < 4; i++) {
     progressSpans.push(
@@ -34,7 +37,18 @@ const LogMoodForm = ({ stepNum, onClose, children }: LogMoodFormProps) => {
             Log your mood
           </h2>
           <div className="log-mood-progress-bar">{progressSpans}</div>
-          {children}
+          {stepNum === 1 ? (
+            <LogMoodStep1 />
+          ) : stepNum === 2 ? (
+            <LogMoodStep2 />
+          ) : null}
+          <PrimaryButton
+            textClass="text-preset-4"
+            logButton={false}
+            onClick={() => setStepNum(stepNum + 1)}
+          >
+            Continue
+          </PrimaryButton>
         </FormWrapper>
       </div>
     </div>

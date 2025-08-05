@@ -1,19 +1,14 @@
 import { useState } from "react";
-import LogMoodForm from "../LogMoodForm/LogMoodForm";
+
 import "./LogMoodStep1.css";
-import PrimaryButton from "../../../PrimaryButton/PrimaryButton";
 
-interface LogMoodStep1Props {
-  onClose: () => void;
-}
-
-const LogMoodStep1 = ({ onClose }: LogMoodStep1Props) => {
+const LogMoodStep1 = () => {
   const [selected, setSelected] = useState("");
   const options = ["Very Happy", "Happy", "Neutral", "Sad", "Very Sad"];
   const optionsFileName = ["very-happy", "happy", "neutral", "sad", "very-sad"];
 
   return (
-    <LogMoodForm stepNum={1} onClose={onClose}>
+    <>
       <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
         How was your mood today?
       </h3>
@@ -21,7 +16,7 @@ const LogMoodStep1 = ({ onClose }: LogMoodStep1Props) => {
         {options.map((option, i) => (
           <label
             key={i}
-            className={`text-preset-5 text-neutral-900 mood-option-button ${
+            className={`text-preset-5 text-neutral-900 mood-option-button label--radio ${
               selected === option ? "active" : ""
             }`}
           >
@@ -40,14 +35,7 @@ const LogMoodStep1 = ({ onClose }: LogMoodStep1Props) => {
           </label>
         ))}
       </div>
-      <PrimaryButton
-        textClass="text-preset-4"
-        homeButton={false}
-        onClick={() => null}
-      >
-        Continue
-      </PrimaryButton>
-    </LogMoodForm>
+    </>
   );
 };
 
