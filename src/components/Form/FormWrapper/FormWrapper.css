@@ -78,7 +78,7 @@
     gap: var(--spacing-400);
   }
 
-  .form-log-mood {
+  .form.log-mood {
     gap: var(--spacing-400);
   }
 }
