@@ -51,4 +51,9 @@
   .card--trends {
     padding: var(--spacing-400) var(--spacing-400);
   }
+
+  .card--reflection,
+  .card--sleep {
+    grid-column: 2;
+  }
 }

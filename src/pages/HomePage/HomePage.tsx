@@ -97,19 +97,21 @@ const HomePage = () => {
           >
             Log today's mood
           </PrimaryButton>
-        </header>
-        <main id="home-main">
-          <section>
+          <section id="section-mood-logged">
             <HomeCard variant="feeling">
               <LoggedFeeling />
             </HomeCard>
-            <HomeCard variant="sleep">
-              <LoggedSleep />
-            </HomeCard>
-            <HomeCard variant="reflection">
-              <LoggedReflection />
-            </HomeCard>
+            <div id="sleep-reflection-container">
+              <HomeCard variant="sleep">
+                <LoggedSleep />
+              </HomeCard>
+              <HomeCard variant="reflection">
+                <LoggedReflection />
+              </HomeCard>
+            </div>
           </section>
+        </header>
+        <main id="home-main">
           <section>
             <HomeCard variant="averages">
               <AverageContent variant="mood" dataLogs={dataLogs} />
