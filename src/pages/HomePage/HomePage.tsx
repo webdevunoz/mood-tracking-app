@@ -9,6 +9,7 @@ import type { logData } from "../../App";
 import { useState } from "react";
 import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
 import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
+import LoggedSleep from "../../components/Home/LoggedSleep/LoggedSleep";
 
 const dataLogs: logData[] = [
   {
@@ -100,6 +101,9 @@ const HomePage = () => {
           <section>
             <HomeCard variant="feeling">
               <LoggedFeeling />
+            </HomeCard>
+            <HomeCard variant="sleep">
+              <LoggedSleep />
             </HomeCard>
           </section>
           <section>
