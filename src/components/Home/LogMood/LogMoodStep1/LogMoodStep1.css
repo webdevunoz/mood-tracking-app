@@ -1,3 +1,9 @@
+.log-mood-section {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+}
+
 .mood-options-container {
   display: flex;
   flex-direction: column;

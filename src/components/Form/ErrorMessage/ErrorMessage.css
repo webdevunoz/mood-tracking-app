@@ -3,5 +3,5 @@
 }
 
 .error-message i {
-  padding-right: var(--spacing-075);
+  margin-right: var(--spacing-075);
 }

@@ -1,20 +1,29 @@
 import { useState } from "react";
 import "./LogMoodStep4.css";
 
-const LogMoodStep4 = () => {
+interface LogMoodStep4Props {
+  hasFormError: (e: boolean) => void;
+}
+
+const LogMoodStep4 = ({ hasFormError }: LogMoodStep4Props) => {
   const [selected, setSelected] = useState("");
   const options = ["9+", "7-8", "5-6", "3-4", "0-2"];
 
+  if (selected) hasFormError(false);
+  else hasFormError(true);
+
   return (
-    <>
-      <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
-        How many hours did you sleep last night?
-      </h3>
+    <section className="log-mood-section">
+      <header>
+        <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
+          How many hours did you sleep last night?
+        </h3>
+      </header>
       <div className="mood-options-container">
         {options.map((option, i) => (
           <label
             key={i}
-            className={`text-preset-5 text-neutral-900 mood-option-button label--radio ${
+            className={`text-preset-5 text-neutral-900 mood-option-button label--radio2 ${
               selected === option ? "active" : ""
             }`}
           >
@@ -29,7 +38,7 @@ const LogMoodStep4 = () => {
           </label>
         ))}
       </div>
-    </>
+    </section>
   );
 };
 

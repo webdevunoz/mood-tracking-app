@@ -2,16 +2,25 @@ import { useState } from "react";
 
 import "./LogMoodStep1.css";
 
-const LogMoodStep1 = () => {
+interface LogMoodStep1Props {
+  hasFormError: (e: boolean) => void;
+}
+
+const LogMoodStep1 = ({ hasFormError }: LogMoodStep1Props) => {
   const [selected, setSelected] = useState("");
   const options = ["Very Happy", "Happy", "Neutral", "Sad", "Very Sad"];
   const optionsFileName = ["very-happy", "happy", "neutral", "sad", "very-sad"];
 
+  if (selected) hasFormError(false);
+  else hasFormError(true);
+
   return (
-    <>
-      <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
-        How was your mood today?
-      </h3>
+    <section className="log-mood-section">
+      <header>
+        <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
+          How was your mood today?
+        </h3>
+      </header>
       <div className="mood-options-container">
         {options.map((option, i) => (
           <label
@@ -35,7 +44,7 @@ const LogMoodStep1 = () => {
           </label>
         ))}
       </div>
-    </>
+    </section>
   );
 };
 

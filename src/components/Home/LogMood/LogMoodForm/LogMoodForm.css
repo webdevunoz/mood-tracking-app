@@ -27,6 +27,18 @@
   border-radius: var(--radius-full);
 }
 
+.log-mood-gap {
+  display: flex;
+  flex-direction: column;
+  gap: inherit;
+}
+
+.log-mood-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+
 @media (min-width: 768px) {
   .log-mood-wrapper {
     top: 83px;

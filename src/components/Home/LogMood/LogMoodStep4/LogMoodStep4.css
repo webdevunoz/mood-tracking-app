@@ -1,3 +1,4 @@
-.label--radio {
-  padding-block: var(--spacing-200);
+.label--radio2 {
+  gap: var(--spacing-150);
+  padding: var(--spacing-200) var(--spacing-250);
 }
