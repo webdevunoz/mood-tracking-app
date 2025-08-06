@@ -1,0 +1,65 @@
+.log-feeling-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-400);
+  position: relative;
+  height: 100%;
+}
+
+.log-feeling-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.log-feeling-icon {
+  width: 200px;
+  height: 200px;
+}
+
+.log-feeling-quote-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+
+.log-feeling-quote-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.log-feeling-quote {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .log-feeling-wrapper {
+    gap: 0;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .log-feeling-header {
+    align-items: flex-start;
+  }
+
+  .log-feeling-icon {
+    position: absolute;
+    top: 18.01px;
+    left: 311.67px;
+    width: 320px;
+    height: 320px;
+  }
+
+  .log-feeling-quote-wrapper {
+    width: 246px;
+    align-items: flex-start;
+    gap: var(--spacing-150);
+  }
+
+  .log-feeling-quote {
+    text-align: left;
+  }
+}

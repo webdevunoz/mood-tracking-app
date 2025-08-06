@@ -8,6 +8,7 @@ import TrendsGraph from "../../components/Home/TrendsGraph/TrendsGraph";
 import type { logData } from "../../App";
 import { useState } from "react";
 import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
+import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
 
 const dataLogs: logData[] = [
   {
@@ -96,6 +97,11 @@ const HomePage = () => {
           </PrimaryButton>
         </header>
         <main id="home-main">
+          <section>
+            <HomeCard variant="feeling">
+              <LoggedFeeling />
+            </HomeCard>
+          </section>
           <section>
             <HomeCard variant="averages">
               <AverageContent variant="mood" dataLogs={dataLogs} />
