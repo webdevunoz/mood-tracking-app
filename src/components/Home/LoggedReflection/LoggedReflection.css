@@ -1,0 +1,25 @@
+.log-reflection-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+
+.log-reflection-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+
+.log-reflection-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.log-reflection-text {
+  height: 80px;
+}
+
+.log-tag-list {
+  display: flex;
+  gap: var(--spacing-150);
+}

@@ -10,6 +10,7 @@ import { useState } from "react";
 import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
 import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
 import LoggedSleep from "../../components/Home/LoggedSleep/LoggedSleep";
+import LoggedReflection from "../../components/Home/LoggedReflection/LoggedReflection";
 
 const dataLogs: logData[] = [
   {
@@ -104,6 +105,9 @@ const HomePage = () => {
             </HomeCard>
             <HomeCard variant="sleep">
               <LoggedSleep />
+            </HomeCard>
+            <HomeCard variant="reflection">
+              <LoggedReflection />
             </HomeCard>
           </section>
           <section>
