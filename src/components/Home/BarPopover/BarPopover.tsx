@@ -63,8 +63,9 @@ const BarPopover = ({ log, index }: BarPopoverProps) => {
       ? `calc(${arrowTop} - 5.7px)`
       : `calc(${arrowTop} + 19.2px)`;
 
-  const popoverArrowLeft = index < 4 ? "-6px" : "170px";
-  const popoverLeft = index < 4 ? "48px" : "-183px";
+  const isLeftPopover = index < 4;
+  const popoverArrowLeft = isLeftPopover ? "-6px" : "170px";
+  const popoverLeft = isLeftPopover ? "48px" : "-183px";
   const popoverTop = log.hours === "0-2" ? "25px" : "0";
   const arrowPath =
     "M2.46737 0.206792L10.5471 4.55976C11.0692 4.84058 11.3815 5.34655 11.3828 5.91319L11.3828 5.91569C11.3828 6.47982 11.0731 6.98392 10.5557 7.26534L2.47531 11.6727C1.95784 11.9548 1.34177 11.9548 0.825625 11.6727C0.308817 11.3907 0.000452085 10.8859 0.00045211 10.3224L0.000452493 1.56209C0.000452517 0.999834 0.307495 0.495739 0.821657 0.213672C1.33516 -0.0683961 1.95056 -0.0715222 2.46737 0.206792Z";
@@ -88,7 +89,7 @@ const BarPopover = ({ log, index }: BarPopoverProps) => {
         ))}
 
         <svg
-          className={`popover-arrow ${index < 4 && "rotate-arrow"}`}
+          className={`popover-arrow ${isLeftPopover && "rotate-arrow"}`}
           style={{ left: `${popoverArrowLeft}`, top: `${arrowTop}` }}
           width="12"
           height="12"
@@ -99,7 +100,7 @@ const BarPopover = ({ log, index }: BarPopoverProps) => {
         </svg>
       </div>
       <svg
-        className={`popover-arrow-shadow ${index < 4 && "rotate-arrow"}`}
+        className={`popover-arrow-shadow ${isLeftPopover && "rotate-arrow"}`}
         style={{
           left: `${
             index >= 4
