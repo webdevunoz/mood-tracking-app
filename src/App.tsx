@@ -4,8 +4,10 @@ import "./App.css";
 
 export type logData = {
   date: string;
-  hours?: string;
   mood?: string;
+  hours?: string;
+  reflection?: string;
+  tags?: string[];
 };
 
 function App() {

@@ -1,0 +1,60 @@
+.bar-popover-shadow-wrapper {
+  position: absolute;
+  top: 11px;
+  z-index: 1;
+}
+
+.bar-popover-wrapper {
+  position: relative;
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--color-blue-100),
+    0 4px 7px 0 rgba(33, 33, 77, 0.16);
+  border-radius: var(--radius-10);
+  padding: var(--spacing-150);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  width: 175px;
+}
+
+.popover-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+
+.section-mood-value {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-075);
+}
+
+.section-mood-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.section-tags-value {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.section-tags-value li:not(:last-child)::after {
+  content: ",\00a0";
+}
+
+.popover-arrow {
+  position: absolute;
+  left: 170px;
+}
+
+.popover-arrow-shadow {
+  position: absolute;
+  height: 24px;
+  left: 169px;
+  z-index: -1;
+}
+
+.rotate-arrow {
+  transform: rotate(180deg);
+}

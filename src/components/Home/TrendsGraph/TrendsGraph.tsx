@@ -2,17 +2,49 @@ import "./TrendsGraph.css";
 import MoodBar from "./MoodBar/MoodBar";
 import MoodScrollBar from "./MoodScrollBar/MoodScrollBar";
 import type { logData } from "../../../App";
+import { useEffect, useRef, useState } from "react";
+import BarPopover from "../BarPopover/BarPopover";
+import React from "react";
 
 interface TrendsGraph {
   dataLogs: logData[];
 }
 
 const TrendsGraph = ({ dataLogs }: TrendsGraph) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const initialPopoversArray = new Array(dataLogs.length).fill(false);
+  const [enableBarPopover, setEnableBarPopover] =
+    useState<boolean[]>(initialPopoversArray);
   const yAxisLabels = ["9+", "7-8", "5-6", "3-4", "0-2"];
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+
+      if (target.closest(".scroll-thumb-area")) return;
+
+      if (containerRef.current) {
+        if (containerRef.current.contains(target)) {
+          setEnableBarPopover(initialPopoversArray);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handlePopover = (index: number) => {
+    setEnableBarPopover((prev) =>
+      prev.map((val, i) => (i === index ? !val : val))
+    );
+  };
 
   return (
     <>
-      <div className="trends-content">
+      <div ref={containerRef} className="trends-content">
         <div className="trend-line top-[6px]"></div>
         <div className="trend-line top-[59px]"></div>
         <div className="trend-line top-[112px]"></div>
@@ -45,13 +77,12 @@ const TrendsGraph = ({ dataLogs }: TrendsGraph) => {
           </div>
         </div>
         <MoodScrollBar>
-          {dataLogs.map((log) => (
-            <MoodBar
-              key={log.date}
-              date={log.date}
-              hours={log.hours}
-              mood={log.mood}
-            />
+          {dataLogs.map((log, i) => (
+            <React.Fragment key={log.date}>
+              <MoodBar log={log} enableBarPopover={() => handlePopover(i)}>
+                {enableBarPopover[i] && <BarPopover index={i} log={log} />}
+              </MoodBar>
+            </React.Fragment>
           ))}
         </MoodScrollBar>
       </div>

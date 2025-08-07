@@ -1,12 +1,17 @@
 import "./MoodBar.css";
+import type { logData } from "../../../../App";
 
 interface MoodBarProps {
-  date: string;
-  hours?: string;
-  mood?: string;
+  log: logData;
+  enableBarPopover: () => void;
+  children: React.ReactNode;
 }
 
-const MoodBar = ({ date, hours, mood }: MoodBarProps) => {
+const MoodBar = ({ log, enableBarPopover, children }: MoodBarProps) => {
+  const date = log.date;
+  const mood = log.mood;
+  const hours = log.hours;
+
   const [month, day] = date.split(" ");
   let barHeight = "";
   let iconFileName = "";
@@ -38,25 +43,31 @@ const MoodBar = ({ date, hours, mood }: MoodBarProps) => {
     iconFileName = `icon-${kebabIconName(mood)}-white.svg`;
   }
   return (
-    <div className="mood-bar-wrapper">
-      {hours && mood && (
-        <div className="mood-bar-content">
-          <div
-            className="mood-bar"
-            style={{ height: `${barHeight}`, backgroundColor: `${moodColor}` }}
-          ></div>
-          <img
-            className="mood-icon"
-            src={`/src/assets/images/${iconFileName}`}
-            alt={`A ${mood} icon`}
-          />
+    <>
+      <div className="mood-bar-wrapper">
+        {hours && mood && (
+          <div className="mood-bar-content" onClick={enableBarPopover}>
+            <div
+              className="mood-bar"
+              style={{
+                height: `${barHeight}`,
+                backgroundColor: `${moodColor}`,
+              }}
+            ></div>
+            <img
+              className="mood-icon"
+              src={`/src/assets/images/${iconFileName}`}
+              alt={`A ${mood} icon`}
+            />
+          </div>
+        )}
+        <div className="mood-bar-details text-neutral-900">
+          <p className="text-preset-9 opacity-70">{month}</p>
+          <p className="text-preset-8">{day}</p>
         </div>
-      )}
-      <div className="mood-bar-details text-neutral-900">
-        <p className="text-preset-9 opacity-70">{month}</p>
-        <p className="text-preset-8">{day}</p>
+        {children}
       </div>
-    </div>
+    </>
   );
 };
 
