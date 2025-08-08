@@ -6,7 +6,7 @@ import HomeCard from "../../components/Home/HomeCard/HomeCard";
 import AverageContent from "../../components/Home/AverageContent/AverageContent";
 import TrendsGraph from "../../components/Home/TrendsGraph/TrendsGraph";
 import type { logData } from "../../App";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
 import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
 import LoggedSleep from "../../components/Home/LoggedSleep/LoggedSleep";
@@ -94,6 +94,23 @@ const dataLogs: logData[] = [
 
 const HomePage = () => {
   const [isLogMoodOpen, setIsLogMoodOpen] = useState(false);
+  const [loggedTodaysMood, setLoggedTodaysMood] = useState(false);
+  const loggedData = localStorage.getItem("formData");
+  const [loggedTodayData, setLoggedTodayData] = useState<logData>({
+    date: "",
+    mood: "",
+    hours: "",
+    reflection: "",
+    tags: [],
+  });
+
+  useEffect(() => {
+    if (loggedData) {
+      setLoggedTodaysMood(true);
+      const todayData = loggedData && JSON.parse(loggedData);
+      setLoggedTodayData(todayData);
+    }
+  }, [loggedData, setLoggedTodaysMood, setLoggedTodayData]);
 
   return (
     <>
@@ -112,26 +129,30 @@ const HomePage = () => {
             </h1>
             <TodaysDate />
           </section>
-          <PrimaryButton
-            logButton={true}
-            homeButton={true}
-            onClick={() => setIsLogMoodOpen(true)}
-          >
-            Log today's mood
-          </PrimaryButton>
-          <section id="section-mood-logged">
-            <HomeCard variant="feeling">
-              <LoggedFeeling />
-            </HomeCard>
-            <div id="sleep-reflection-container">
-              <HomeCard variant="sleep">
-                <LoggedSleep />
+          {!loggedTodaysMood && (
+            <PrimaryButton
+              logButton={true}
+              homeButton={true}
+              onClick={() => setIsLogMoodOpen(true)}
+            >
+              Log today's mood
+            </PrimaryButton>
+          )}
+          {loggedTodaysMood && (
+            <section id="section-mood-logged">
+              <HomeCard variant="feeling">
+                <LoggedFeeling data={loggedTodayData} />
               </HomeCard>
-              <HomeCard variant="reflection">
-                <LoggedReflection />
-              </HomeCard>
-            </div>
-          </section>
+              <div id="sleep-reflection-container">
+                <HomeCard variant="sleep">
+                  <LoggedSleep data={loggedTodayData} />
+                </HomeCard>
+                <HomeCard variant="reflection">
+                  <LoggedReflection data={loggedTodayData} />
+                </HomeCard>
+              </div>
+            </section>
+          )}
         </header>
         <main id="home-main">
           <section>

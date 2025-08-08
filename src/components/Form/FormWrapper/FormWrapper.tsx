@@ -6,6 +6,7 @@ interface FormWrapperProps {
   hasClose?: boolean;
   background?: string;
   children: React.ReactNode;
+  handleSubmit?: (e: React.FormEvent) => void;
 }
 
 const FormWrapper = ({
@@ -14,6 +15,7 @@ const FormWrapper = ({
   hasClose = false,
   background = "var(--color-neutral-0)",
   children,
+  handleSubmit = () => null,
 }: FormWrapperProps) => {
   return (
     <div
@@ -28,7 +30,9 @@ const FormWrapper = ({
           onClick={onClose}
         />
       )}
-      <form className={`form ${className}`}>{children}</form>
+      <form onSubmit={(e) => handleSubmit(e)} className={`form ${className}`}>
+        {children}
+      </form>
     </div>
   );
 };

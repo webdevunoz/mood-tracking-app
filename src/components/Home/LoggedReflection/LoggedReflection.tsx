@@ -1,7 +1,12 @@
+import type { logData } from "../../../App";
 import StyledIcon from "../../StyledIcon";
 import "./LoggedReflection.css";
 
-const LoggedReflection = () => {
+interface LoggedReflectionProps {
+  data: logData;
+}
+
+const LoggedReflection = ({ data }: LoggedReflectionProps) => {
   return (
     <div className="log-reflection-wrapper">
       <header className="log-reflection-header">
@@ -13,11 +18,12 @@ const LoggedReflection = () => {
         <p className="text-preset-6 text-neutral-600">Reflection of the day</p>
       </header>
       <p className="log-reflection-text text-preset-6 text-neutral-900">
-        Woke up early and finally tackled a big project!
+        {data.reflection}
       </p>
       <ul className="log-tag-list text-preset-6-italic text-neutral-600">
-        <li>#Grateful</li>
-        <li>#Optimistic</li>
+        {data.tags?.map((tag, i) => (
+          <li key={i}>#{tag}</li>
+        ))}
       </ul>
     </div>
   );

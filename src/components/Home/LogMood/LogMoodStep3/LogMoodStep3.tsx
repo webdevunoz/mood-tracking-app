@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LogMoodStep3.css";
 
 interface LogMoodStep3Props {
   hasFormError: (e: boolean) => void;
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const LogMoodStep3 = ({ hasFormError }: LogMoodStep3Props) => {
+const LogMoodStep3 = ({ hasFormError, handleChange }: LogMoodStep3Props) => {
   const [characterCount, setCharacterCount] = useState(0);
   const [wordCount, setWordCount] = useState(0);
   const MAX_CHARACTERS = 150;
@@ -19,8 +20,12 @@ const LogMoodStep3 = ({ hasFormError }: LogMoodStep3Props) => {
     setWordCount(numWords);
   };
 
-  if (wordCount < 2) hasFormError(true);
-  else hasFormError(false);
+  const minWordCount = wordCount < 2;
+
+  useEffect(() => {
+    if (minWordCount) hasFormError(true);
+    else hasFormError(false);
+  }, [minWordCount, hasFormError]);
 
   return (
     <section className="log-mood-section">
@@ -31,8 +36,12 @@ const LogMoodStep3 = ({ hasFormError }: LogMoodStep3Props) => {
       </header>
       <div className="mood-textarea-container">
         <textarea
+          name="reflection"
           maxLength={MAX_CHARACTERS}
-          onChange={handleTextAreaChange}
+          onChange={(e) => {
+            handleTextAreaChange(e);
+            handleChange(e);
+          }}
           className="mood-textarea text-preset-6 placeholder:text-preset-6-italic text-neutral-600"
           placeholder="Today, I felt..."
         ></textarea>

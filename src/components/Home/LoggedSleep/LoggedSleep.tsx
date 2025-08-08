@@ -1,7 +1,12 @@
+import type { logData } from "../../../App";
 import StyledIcon from "../../StyledIcon";
 import "./LoggedSleep.css";
 
-const LoggedSleep = () => {
+interface LoggedSleepProps {
+  data: logData;
+}
+
+const LoggedSleep = ({ data }: LoggedSleepProps) => {
   return (
     <div className="log-sleep-wrapper">
       <header className="log-sleep-header">
@@ -12,7 +17,7 @@ const LoggedSleep = () => {
         />
         <p className="text-preset-6 text-neutral-600">Sleep</p>
       </header>
-      <h3 className="text-preset-3 text-neutral-900">9+ hours</h3>
+      <h3 className="text-preset-3 text-neutral-900">{data.hours} hours</h3>
     </div>
   );
 };

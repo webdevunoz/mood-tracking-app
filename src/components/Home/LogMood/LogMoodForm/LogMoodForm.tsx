@@ -7,6 +7,7 @@ import LogMoodStep2 from "../LogMoodStep2/LogMoodStep2";
 import LogMoodStep3 from "../LogMoodStep3/LogMoodStep3";
 import LogMoodStep4 from "../LogMoodStep4/LogMoodStep4";
 import ErrorMessage from "../../../Form/ErrorMessage/ErrorMessage";
+import type { logData } from "../../../../App";
 
 interface LogMoodFormProps {
   onClose: () => void;
@@ -50,10 +51,62 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
     }
   };
 
+  /* Get the current month and day for logging form */
+  const currentDate = new Date();
+  const monthName = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
+    currentDate
+  );
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const formDate = `${monthName} ${day}`;
+
+  const [form, setForm] = useState<logData>({
+    date: `${formDate}`,
+    mood: "",
+    tags: [],
+    reflection: "",
+    hours: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => {
+      if (name === "tags") {
+        const tags = Array.isArray(prev.tags) ? prev.tags : [];
+        const hasTag = tags.includes(value);
+        return {
+          ...prev,
+          tags: hasTag ? tags.filter((tag) => tag !== value) : [...tags, value],
+        };
+      }
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const handleMoodFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    onClose();
+    /*     try {
+      await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+    } catch (err) {
+      console.error("Submission failed:", err);
+    } */
+
+    localStorage.setItem("formData", JSON.stringify(form));
+    console.log("Saved to localStorage");
+  };
+
   return (
     <div className="log-mood-overlay">
       <div className="log-mood-wrapper">
         <FormWrapper
+          handleSubmit={handleMoodFormSubmit}
           className="log-mood"
           background="var(--light-gradient)"
           onClose={onClose}
@@ -67,13 +120,25 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
           </header>
           <main className="log-mood-gap">
             {stepNum === 1 ? (
-              <LogMoodStep1 hasFormError={(e) => setFormError(e)} />
+              <LogMoodStep1
+                hasFormError={(e) => setFormError(e)}
+                handleChange={(e) => handleChange(e)}
+              />
             ) : stepNum === 2 ? (
-              <LogMoodStep2 hasFormError={(e) => setFormError(e)} />
+              <LogMoodStep2
+                hasFormError={(e) => setFormError(e)}
+                handleChange={(e) => handleChange(e)}
+              />
             ) : stepNum === 3 ? (
-              <LogMoodStep3 hasFormError={(e) => setFormError(e)} />
+              <LogMoodStep3
+                hasFormError={(e) => setFormError(e)}
+                handleChange={(e) => handleChange(e)}
+              />
             ) : stepNum === 4 ? (
-              <LogMoodStep4 hasFormError={(e) => setFormError(e)} />
+              <LogMoodStep4
+                hasFormError={(e) => setFormError(e)}
+                handleChange={(e) => handleChange(e)}
+              />
             ) : null}
           </main>
           <footer className="log-mood-footer log-mood-gap">

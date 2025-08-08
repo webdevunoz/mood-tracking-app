@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./LogMoodStep1.css";
 
 interface LogMoodStep1Props {
   hasFormError: (e: boolean) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LogMoodStep1 = ({ hasFormError }: LogMoodStep1Props) => {
+const LogMoodStep1 = ({ hasFormError, handleChange }: LogMoodStep1Props) => {
   const [selected, setSelected] = useState("");
   const options = ["Very Happy", "Happy", "Neutral", "Sad", "Very Sad"];
   const optionsFileName = ["very-happy", "happy", "neutral", "sad", "very-sad"];
 
-  if (selected) hasFormError(false);
-  else hasFormError(true);
+  useEffect(() => {
+    if (selected) hasFormError(false);
+    else hasFormError(true);
+  }, [selected, hasFormError]);
 
   return (
     <section className="log-mood-section">
@@ -34,6 +37,7 @@ const LogMoodStep1 = ({ hasFormError }: LogMoodStep1Props) => {
               value={option}
               key={option}
               name="mood"
+              onChange={handleChange}
               onClick={() => setSelected(option)}
             />
             <span className="mood-option-title">{option}</span>

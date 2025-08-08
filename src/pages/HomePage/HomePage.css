@@ -54,7 +54,7 @@
   }
 
   #section-mood-logged {
-    grid-template-columns: 670px 1fr;
+    grid-template-columns: 1fr 0.7fr; /*670px*/
     column-gap: var(--spacing-400);
     row-gap: var(--spacing-250);
   }

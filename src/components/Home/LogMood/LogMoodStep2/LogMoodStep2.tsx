@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LogMoodStep2.css";
 
 interface LogMoodStep2Props {
   hasFormError: (e: boolean) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LogMoodStep2 = ({ hasFormError }: LogMoodStep2Props) => {
+const LogMoodStep2 = ({ hasFormError, handleChange }: LogMoodStep2Props) => {
   const [selected, setSelected] = useState<string[]>([]);
 
   const handleCheckboxChange = (option: string) => {
@@ -14,8 +15,12 @@ const LogMoodStep2 = ({ hasFormError }: LogMoodStep2Props) => {
     else setSelected((prev) => [...prev, option]);
   };
 
-  if (selected.length > 3) hasFormError(true);
-  else hasFormError(false);
+  const overSelected = selected.length > 3;
+
+  useEffect(() => {
+    if (overSelected) hasFormError(true);
+    else hasFormError(false);
+  }, [overSelected, hasFormError]);
 
   const options = [
     "Joyful",
@@ -59,11 +64,14 @@ const LogMoodStep2 = ({ hasFormError }: LogMoodStep2Props) => {
             }`}
           >
             <input
-              onChange={() => handleCheckboxChange(option)}
+              onChange={(e) => {
+                handleCheckboxChange(option);
+                handleChange(e);
+              }}
               type="checkbox"
               value={option}
               key={option}
-              name="mood"
+              name="tags"
             />
             <span className="mood-option-title">{option}</span>
           </label>

@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./LogMoodStep4.css";
 
 interface LogMoodStep4Props {
   hasFormError: (e: boolean) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LogMoodStep4 = ({ hasFormError }: LogMoodStep4Props) => {
+const LogMoodStep4 = ({ hasFormError, handleChange }: LogMoodStep4Props) => {
   const [selected, setSelected] = useState("");
   const options = ["9+", "7-8", "5-6", "3-4", "0-2"];
 
-  if (selected) hasFormError(false);
-  else hasFormError(true);
+  useEffect(() => {
+    if (selected) hasFormError(false);
+    else hasFormError(true);
+  }, [selected, hasFormError]);
 
   return (
     <section className="log-mood-section">
@@ -31,7 +34,8 @@ const LogMoodStep4 = ({ hasFormError }: LogMoodStep4Props) => {
               type="radio"
               value={option}
               key={option}
-              name="mood"
+              name="hours"
+              onChange={handleChange}
               onClick={() => setSelected(option)}
             />
             <span className="mood-option-title">{option} hours</span>

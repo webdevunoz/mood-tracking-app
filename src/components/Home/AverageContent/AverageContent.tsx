@@ -25,47 +25,47 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
   const [comparisonText, setComparisonText] = useState(initialComparisonText);
   const [enoughData, setEnoughData] = useState(false);
 
-  /* String to Number Map for Averaging Moods */
-  const moodMap: Record<string, number> = {
-    "Very Happy": 4,
-    Happy: 3,
-    Neutral: 2,
-    Sad: 1,
-    "Very Sad": 0,
-  };
-
-  /* String to Number Map for Averaging Hours */
-  const hoursMap: Record<string, number> = {
-    "9+": 4,
-    "7-8": 3,
-    "5-6": 2,
-    "3-4": 1,
-    "0-2": 0,
-  };
-
-  /* Checks the Average of the last 5, or previous 5 available logs */
-  const checkAvg = (map: Record<string, number>, offsetNum = 5) => {
-    let sum = 0,
-      count = 0;
-    for (
-      let i = Math.max(0, dataLogs.length - offsetNum);
-      i < dataLogs.length - (offsetNum - 5);
-      i++
-    ) {
-      let val;
-      if (variant === "mood") val = map[dataLogs[i].mood!];
-      else val = map[dataLogs[i].hours!];
-
-      if (typeof val === "number") {
-        sum += val;
-        count++;
-      }
-    }
-    const avg = Math.round(sum / (count || 1));
-    return avg;
-  };
-
   useEffect(() => {
+    /* String to Number Map for Averaging Moods */
+    const moodMap: Record<string, number> = {
+      "Very Happy": 4,
+      Happy: 3,
+      Neutral: 2,
+      Sad: 1,
+      "Very Sad": 0,
+    };
+
+    /* String to Number Map for Averaging Hours */
+    const hoursMap: Record<string, number> = {
+      "9+": 4,
+      "7-8": 3,
+      "5-6": 2,
+      "3-4": 1,
+      "0-2": 0,
+    };
+
+    /* Checks the Average of the last 5, or previous 5 available logs */
+    const checkAvg = (map: Record<string, number>, offsetNum = 5) => {
+      let sum = 0,
+        count = 0;
+      for (
+        let i = Math.max(0, dataLogs.length - offsetNum);
+        i < dataLogs.length - (offsetNum - 5);
+        i++
+      ) {
+        let val;
+        if (variant === "mood") val = map[dataLogs[i].mood!];
+        else val = map[dataLogs[i].hours!];
+
+        if (typeof val === "number") {
+          sum += val;
+          count++;
+        }
+      }
+      const avg = Math.round(sum / (count || 1));
+      return avg;
+    };
+
     if (dataLogs)
       if (dataLogs.length >= 5) {
         /* If there is at least 5 logs */
@@ -140,7 +140,13 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
         setComparisonText(initialComparisonText);
         setEnoughData(false);
       }
-  }, [dataLogs]);
+  }, [
+    dataLogs,
+    variant,
+    initialStatus,
+    inititalBgColor,
+    initialComparisonText,
+  ]);
 
   const heading = {
     mood: "Mood",
