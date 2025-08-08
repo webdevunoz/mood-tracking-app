@@ -1,15 +1,18 @@
 .popover-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: var(--spacing-200);
+  position: absolute;
+  top: 88px;
+  width: 100%;
 }
 
 .menu-wrapper {
+  position: absolute;
+  right: 0;
+  width: 100%;
   background-color: var(--color-neutral-0);
   box-shadow: 0 5px 8px 0 rgba(33, 33, 37, 0.16);
   border-radius: var(--radius-8);
   padding: var(--spacing-150) var(--spacing-200);
-  width: 343px;
+  max-width: 343px;
 }
 
 .menu-user-info {
@@ -38,10 +41,6 @@
 }
 
 @media (min-width: 768px) {
-  .popover-wrapper {
-    margin-top: var(--spacing-100);
-  }
-
   .menu-wrapper {
     width: 200px;
   }
