@@ -20,7 +20,7 @@ const SignupPage = () => {
           desc="Join to track your daily mood and sleep with ease."
         />
         <section>
-          <FormField label="Email" type="email" />
+          <FormField label="Email address" type="email" />
           <FormField label="Password" type="password" />
         </section>
         <footer>
