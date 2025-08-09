@@ -8,3 +8,9 @@
   display: flex;
   justify-content: center;
 }
+
+.signup-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

@@ -7,7 +7,8 @@ interface FormFieldProps {
   type?: string;
   value?: string;
   placeholder?: string;
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setValidity?: (isValid: boolean) => void;
 }
 
 const FormField = ({
@@ -15,15 +16,16 @@ const FormField = ({
   type = "text",
   value,
   placeholder,
-  onChange,
+  onChange = () => null,
+  setValidity = () => true,
 }: FormFieldProps) => {
-  const [emailValue, setEmailValue] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmailValue(value);
-    setIsValid(e.target.validity.valid);
+    const valid = e.target.validity.valid;
+    setValidity(valid);
+    setIsValid(valid);
+    onChange(e);
   };
 
   return (
@@ -32,9 +34,8 @@ const FormField = ({
         {label}
       </label>
       <input
-        defaultValue={value}
-        value={type === "email" ? emailValue : undefined}
-        onChange={type === "email" ? handleChange : onChange}
+        value={value}
+        onChange={(e) => handleChange(e)}
         id={type}
         type={type}
         className="form-input text-preset-6-regular"
