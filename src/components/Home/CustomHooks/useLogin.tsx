@@ -1,33 +1,34 @@
 import { useState } from "react";
 
-type SignupPayload = {
-  email: string;
-  password: string;
-  name?: string;
-  profilePicture?: string;
-};
-
-type SignupResponse = {
-  id: string;
+type LoginPayload = {
   email: string;
   password: string;
 };
 
-type UseSignupOptions = {
-  endpoint?: string;
-  onSuccess?: (data: SignupResponse) => void;
+type LoginResponse = {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
+};
+
+type UseLoginOptions = {
+  endpoint?: string; // default fallback
+  onSuccess?: (data: LoginResponse) => void;
   onError?: (error: unknown) => void;
 };
 
-export function useSignup({
-  endpoint = "http://localhost:3000/api/users",
+export function useLogin({
+  endpoint = "http://localhost:3000/api/login",
   onSuccess,
   onError,
-}: UseSignupOptions = {}) {
+}: UseLoginOptions = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
 
-  const signup = async (payload: SignupPayload) => {
+  const login = async (payload: LoginPayload) => {
     setLoading(true);
     setError(null);
 
@@ -38,12 +39,8 @@ export function useSignup({
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`Signup failed: ${res.status} ${errText}`);
-      }
-
-      const data: SignupResponse = await res.json();
+      if (!res.ok) throw new Error(`Login failed: ${res.status}`);
+      const data: LoginResponse = await res.json();
       onSuccess?.(data);
       return data;
     } catch (err) {
@@ -55,5 +52,5 @@ export function useSignup({
     }
   };
 
-  return { signup, loading, error };
+  return { login, loading, error };
 }

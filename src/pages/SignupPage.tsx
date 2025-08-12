@@ -13,27 +13,41 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validity, setValidity] = useState(true);
-  const { signup, loading, error, response } = useSignup();
+  const [isValid, setIsValid] = useState(true);
+  const [userCreated, setUserCreated] = useState(false);
+  const { signup, loading, error } = useSignup({
+    onSuccess: () => setUserCreated(true),
+    onError: (err) => {
+      if (err instanceof Error) setDisplayError(err.message);
+      else setDisplayError("Something went wrong.");
+    },
+  });
   const [displayError, setDisplayError] = useState<string>("");
 
   useEffect(() => {
-    if (!error && !loading && response?.status === 201) navigate("/onboarding");
-  }, [loading, error, response, navigate]);
+    if (!loading && userCreated) navigate("/onboarding");
+  }, [loading, userCreated, navigate]);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     let errorMessage = "";
 
-    if ((!validity || !email) && !password)
+    if ((!isValid || !email) && !password)
       errorMessage = "Email and password are required.";
     else if (!email) errorMessage = "Email is required.";
     else if (!password) errorMessage = "Password is required.";
 
     if (errorMessage) setDisplayError(errorMessage);
-    else signup(email, password);
+    else signup({ email, password });
   };
+
+  const getErrorMessage = (error: unknown): string =>
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+      ? error
+      : "";
 
   return (
     <>
@@ -51,7 +65,7 @@ const SignupPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            setValidity={(isValid) => setValidity(isValid)}
+            setValidity={(isValid) => setIsValid(isValid)}
           />
           <FormField
             label="Password"
@@ -60,12 +74,12 @@ const SignupPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </section>
-        <footer className="signup-footer">
-          {(displayError || error) && (
+        <footer className="signup-login-footer">
+          {(displayError || error !== null) && (
             <ErrorMessage
               className="text-preset-7"
               iconSize="15.5px"
-              message={displayError || (error ?? "")}
+              message={displayError || getErrorMessage(error)}
             />
           )}
           <PrimaryButton

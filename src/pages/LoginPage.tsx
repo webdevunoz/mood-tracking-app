@@ -1,11 +1,59 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import FormHeader from "../components/Form/FormHeader/FormHeader";
 import FormField from "../components/Form/FormField/FormField";
 import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
+import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
+import { useEffect, useState } from "react";
+import { useLogin } from "../components/Home/CustomHooks/useLogin";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { login, loading, error } = useLogin({
+    onSuccess: (data) => {
+      localStorage.setItem("authToken", data.token);
+      console.log("Logged in as:", data.user.name);
+      setIsLoggedIn(true);
+    },
+    onError: (err) => {
+      console.error("Login error:", err);
+    },
+  });
+  const [displayError, setDisplayError] = useState<string>("");
+
+  useEffect(() => {
+    /* Assuming no error because succeeded, wait until done loading */
+    if (isLoggedIn && !loading) {
+      navigate("/home");
+    }
+  }, [isLoggedIn, loading, navigate]);
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    let errorMessage = "";
+
+    if ((!isValid || !email) && !password)
+      errorMessage = "Email and password are required.";
+    else if (!email) errorMessage = "Email is required.";
+    else if (!password) errorMessage = "Password is required.";
+
+    if (errorMessage) setDisplayError(errorMessage);
+    else await login({ email: email, password: password });
+  };
+
+  const getErrorMessage = (error: unknown): string =>
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+      ? error
+      : "";
+
   return (
     <>
       <header className="logo-wrapper">
@@ -17,14 +65,34 @@ const LoginPage = () => {
           desc="Log in to continue tracking your mood and sleep."
         />
         <section>
-          <FormField label="Email address" type="email" />
-          <FormField label="Password" type="password" />
+          <FormField
+            label="Email address"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            setValidity={(isValid) => setIsValid(isValid)}
+          />
+          <FormField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </section>
-        <footer>
+        <footer className="signup-login-footer">
+          {(displayError || error !== null) && (
+            <ErrorMessage
+              className="text-preset-7"
+              iconSize="15.5px"
+              message={displayError || getErrorMessage(error)}
+            />
+          )}
           <PrimaryButton
             logButton={false}
             homeButton={false}
-            onClick={() => null}
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
           >
             Log In
           </PrimaryButton>
