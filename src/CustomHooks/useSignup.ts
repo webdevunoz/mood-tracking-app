@@ -46,7 +46,6 @@ export function useSignup({ endpoint = "http://localhost:3000/api/users", onSucc
       }
 
       const data: SignupResponse = await res.json();
-      console.log(data);
       localStorage.setItem("token", data.token);
 
       // 🔑 Sign into Firebase

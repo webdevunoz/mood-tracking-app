@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { signInWithCustomToken } from "firebase/auth";
+import { auth } from "../lib/firebase";
+import { useAuth } from "../context/AuthContext"; // assuming you expose setUser
+
 
 type LoginPayload = {
   email: string;
@@ -6,12 +10,14 @@ type LoginPayload = {
 };
 
 type LoginResponse = {
-  token: string;
+  jwt: string;
+  firebaseCustomToken: string;
   user: {
     id: string;
     email: string;
     name: string;
   };
+  error: string;
 };
 
 type UseLoginOptions = {
@@ -20,15 +26,12 @@ type UseLoginOptions = {
   onError?: (error: unknown) => void;
 };
 
-export function useLogin({
-  endpoint = "http://localhost:3000/api/login",
-  onSuccess,
-  onError,
-}: UseLoginOptions = {}) {
+export function useLogin({ endpoint = "http://localhost:3000/api/login", onSuccess, onError }:UseLoginOptions = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
+  const { setUser } = useAuth(); // from your context
 
-  const login = async (payload: LoginPayload) => {
+  const login = async ({ email, password }: LoginPayload) => {
     setLoading(true);
     setError(null);
 
@@ -36,11 +39,21 @@ export function useLogin({
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ email, password })
       });
 
-      if (!res.ok) throw new Error(`Login failed: ${res.status}`);
-      const data: LoginResponse = await res.json();
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed");
+
+      // 🔐 Sign into Firebase for Storage access
+      await signInWithCustomToken(auth, data.firebaseCustomToken);
+
+      // 🧠 Store your app JWT for API calls
+      localStorage.setItem("token", data.jwt);
+
+      // ⚡ Hydrate context with user profile
+      setUser(data.user);
+
       onSuccess?.(data);
       return data;
     } catch (err) {

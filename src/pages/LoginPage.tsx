@@ -7,18 +7,17 @@ import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
 import { useEffect, useState } from "react";
 import { useLogin } from "../CustomHooks/useLogin";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { login, loading, error } = useLogin({
-    onSuccess: (data) => {
-      localStorage.setItem("authToken", data.token);
-      console.log("Logged in as:", data.user.name);
-      setIsLoggedIn(true);
+  const { user, authReady } = useAuth();
+  const { login, error } = useLogin({
+    onSuccess: ({ user }) => {
+      console.log("Logged in as:", user);
     },
     onError: (err) => {
       console.error("Login error:", err);
@@ -28,10 +27,10 @@ const LoginPage = () => {
 
   useEffect(() => {
     /* Assuming no error because succeeded, wait until done loading */
-    if (isLoggedIn && !loading) {
+    if (authReady && user) {
       navigate("/home");
     }
-  }, [isLoggedIn, loading, navigate]);
+  }, [authReady, user, navigate]);
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

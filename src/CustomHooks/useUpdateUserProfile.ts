@@ -1,15 +1,16 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import axios from "axios";
 import { app } from "../lib/firebase"; 
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
-export function useUpdateUserProfile() {
+export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) => void } = {})
+ {
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user, authReady } = useContext(AuthContext); // user must include uid
+  const { user, authReady } = useAuth(); // user must include uid
   const storage = getStorage(app);
 
   const setProfileName = async (name: string | undefined) => {
@@ -58,6 +59,7 @@ export function useUpdateUserProfile() {
 
       const imageUrl = await getDownloadURL(fileRef);
       await axios.put(`http://localhost:3000/api/user/${uid}/profile-picture`, { imageUrl });
+      onSuccess?.(imageUrl);
 
       return imageUrl;
     } catch (err: unknown) {

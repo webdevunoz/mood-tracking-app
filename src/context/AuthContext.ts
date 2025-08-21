@@ -1,9 +1,10 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 export interface AuthUser {
   uid: string | undefined;
   email: string | null | undefined;
-  imageUrl?: string;
+  name: string;
+  profilePicture?: string;
 }
 
 export interface AuthContextType {
@@ -12,4 +13,11 @@ export interface AuthContextType {
   authReady: boolean;
 }
 
-export const AuthContext = createContext<AuthContextType>({ user: null, setUser: () => {}, authReady: false });
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within an AuthProvider");
+  return ctx;
+}
+
