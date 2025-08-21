@@ -3,7 +3,7 @@ import "./ErrorMessage.css";
 interface ErrorMessageProps {
   className?: string;
   iconSize?: string;
-  message: string;
+  message: string | null;
 }
 
 const ErrorMessage = ({

@@ -20,7 +20,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
           />
           <section>
             <FormField label="Name" value="Lisa Maria" />
-            <UploadImage initialSrc="/src/assets/images/avatar-lisa.jpg" />
+            <UploadImage />
           </section>
           <footer>
             <PrimaryButton

@@ -5,7 +5,7 @@ import FormHeader from "../components/Form/FormHeader/FormHeader";
 import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import Logo from "../components/Logo";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
-import { useSignup } from "../components/Home/CustomHooks/useSignup";
+import { useSignup } from "../CustomHooks/useSignup";
 import { useEffect, useState } from "react";
 import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
 

@@ -9,6 +9,7 @@ interface FormFieldProps {
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setValidity?: (isValid: boolean) => void;
+  isValidName?: boolean;
 }
 
 const FormField = ({
@@ -18,6 +19,7 @@ const FormField = ({
   placeholder,
   onChange = () => null,
   setValidity = () => true,
+  isValidName = true,
 }: FormFieldProps) => {
   const [isValid, setIsValid] = useState(true);
 
@@ -42,6 +44,7 @@ const FormField = ({
         placeholder={type === "email" ? "name@mail.com" : placeholder}
       ></input>
       {!isValid && <ErrorMessage message="Invalid email format." />}
+      {!isValidName && <ErrorMessage message="You must put a name." />}
     </div>
   );
 };

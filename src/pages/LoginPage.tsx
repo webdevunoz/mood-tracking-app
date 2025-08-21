@@ -6,7 +6,7 @@ import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
 import { useEffect, useState } from "react";
-import { useLogin } from "../components/Home/CustomHooks/useLogin";
+import { useLogin } from "../CustomHooks/useLogin";
 
 const LoginPage = () => {
   const navigate = useNavigate();

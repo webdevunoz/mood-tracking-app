@@ -1,52 +1,79 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import { AuthContext } from "../../context/AuthContext";
 
 interface UploadImageProps {
-  initialSrc?: string;
+  preview: string | null;
+  uploading: boolean;
+  error: string | null;
+  handleFileChange: (file: File) => Promise<string | undefined>;
 }
 
-const UploadImage = ({ initialSrc }: UploadImageProps) => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [previewSrc, setPreviewSrc] = useState(
-    initialSrc || "/src/assets/images/avatar-placeholder.svg"
-  );
+const UploadImage = ({
+  preview,
+  uploading,
+  error,
+  handleFileChange,
+}: UploadImageProps) => {
+  const { setUser, user, authReady } = useContext(AuthContext);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () => {
-    inputRef.current?.click();
-  };
+  const [displaySrc, setDisplaySrc] = useState(
+    "/src/assets/images/avatar-placeholder.svg"
+  );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Show preview if available
+  useEffect(() => {
+    if (preview) {
+      setDisplaySrc(preview);
+    }
+  }, [preview]);
+
+  const handleClick = () => inputRef.current?.click();
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (!file) {
-      setIsValid(false);
-      setErrorMessage("Upload an image.");
+      setValidationError("Upload an image.");
       return;
     }
-    //250KB Max File Size Validation
-    const isUnderSizeLimit = file.size <= 250 * 1024;
 
-    //PNG or JPEG Validation
+    // File validations
+    const isUnderSizeLimit = file.size <= 250 * 1024; // 250KB
     const isValidType = /image\/(png|jpeg)/.test(file.type);
 
     if (!isValidType) {
-      setIsValid(false);
-      setErrorMessage("Unsupported file type. Please upload a PNG or JPEG");
+      setValidationError("Unsupported file type. Please upload a PNG or JPEG.");
+      return;
+    }
+    if (!isUnderSizeLimit) {
+      setValidationError("File must be 250KB or less.");
+      return;
     }
 
-    if (!isUnderSizeLimit && isValidType) {
-      setIsValid(false);
-      setErrorMessage("File must be 250KB or less.");
-    }
+    setValidationError(null);
 
-    if (isValidType && isUnderSizeLimit)
-      setPreviewSrc(URL.createObjectURL(file)); //Update preview source image
+    const imageUrl = await handleFileChange(file);
+
+    if (imageUrl && user) {
+      setDisplaySrc(imageUrl);
+      // Merge new image into existing user object
+      setUser({ ...user, imageUrl });
+    }
   };
+
+  if (!authReady) {
+    return <p>Checking authentication…</p>;
+  }
+
+  if (!user) {
+    return <p>Please log in to upload your profile picture.</p>;
+  }
+
   return (
     <div className="upload-wrapper">
-      <img className="upload-image" src={previewSrc}></img>
+      <img src={displaySrc} alt="Profile preview" className="upload-image" />
       <div className="upload-content">
         <div className="upload-heading">
           <p className="upload-header text-preset-6-regular text-neutral-900">
@@ -56,16 +83,24 @@ const UploadImage = ({ initialSrc }: UploadImageProps) => {
             Max 250KB, PNG or JPEG
           </p>
         </div>
-        <button className="upload-button" type="button" onClick={handleClick}>
-          Upload
+        <button
+          className="upload-button"
+          type="button"
+          onClick={handleClick}
+          disabled={uploading}
+        >
+          {uploading ? "Uploading ..." : "Upload"}
         </button>
         <input
           type="file"
           ref={inputRef}
           onChange={handleChange}
+          accept="image/png, image/jpeg"
           className="sr-only"
         />
-        {!isValid && <ErrorMessage message={errorMessage} />}
+        {(validationError || error) && (
+          <ErrorMessage message={validationError || error} />
+        )}
       </div>
     </div>
   );
