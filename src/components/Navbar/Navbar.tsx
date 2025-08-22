@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import ProfilePopover from "../ProfilePopover/ProfilePopover";
 import SettingsModal from "../SettingsModal/SettingsModal";
+import { useUserProfilePicture } from "../../CustomHooks/useUserProfilePicture";
 
 const Navbar = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
+  const profilePicture = useUserProfilePicture();
   const buttonRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
@@ -35,9 +38,19 @@ const Navbar = () => {
         >
           <img
             id="nav-profile-img"
-            src="/src/assets/images/avatar-lisa.jpg"
+            src={profilePicture ?? `/src/assets/images/avatar-placeholder.svg`}
+            onLoad={() => setLoading(false)}
+            onError={() => setError(true)}
             alt="Profile picture"
+            className={`${loading ? "hidden" : "block"}`}
           />
+          {error && (
+            <img
+              id="nav-profile-img"
+              src={`/src/assets/images/avatar-placeholder.svg`}
+              alt="Default profile picture"
+            />
+          )}
           <span>
             <img src="/src/assets/images/icon-dropdown-arrow.svg" alt="" />
           </span>
