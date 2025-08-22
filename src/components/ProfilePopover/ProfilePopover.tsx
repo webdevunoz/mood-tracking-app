@@ -1,6 +1,8 @@
 import "./ProfilePopover.css";
 import React from "react";
 import "./ProfilePopover.css";
+import { useUserName } from "../../CustomHooks/useUserName";
+import { useUserEmail } from "../../CustomHooks/useUserEmail";
 
 interface ProfilePopoverProps {
   ref: React.Ref<HTMLDivElement>;
@@ -13,12 +15,15 @@ const ProfilePopover = ({
   onClose,
   onSettingsClick,
 }: ProfilePopoverProps) => {
+  const name = useUserName();
+  const email = useUserEmail();
+
   return (
     <div className="popover-wrapper">
       <div role="menu" ref={ref} className="menu-wrapper">
         <div className="menu-user-info">
-          <p className="text-preset-6 text-neutral-900">Lisa Maria</p>
-          <p className="text-preset-7 text-neutral-300">lisa@mail.com</p>
+          <p className="text-preset-6 text-neutral-900">{name}</p>
+          <p className="text-preset-7 text-neutral-300">{email}</p>
         </div>
         <div className="menu-divider"></div>
         <div className="menu-buttons">
