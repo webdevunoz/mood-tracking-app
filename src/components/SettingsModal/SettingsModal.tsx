@@ -7,6 +7,7 @@ import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import { useUpdateUserProfile } from "../../CustomHooks/useUpdateUserProfile";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import ErrorMessage from "../Form/ErrorMessage/ErrorMessage";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -17,12 +18,16 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
   const originalName = user?.name;
   const { preview, uploading, error, setProfileName, handleFileUpload } =
     useUpdateUserProfile();
-  const [name, setName] = useState<string | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>(originalName);
   const [validName, setValidName] = useState<boolean>(true);
   const [profilePictureFile, setProfilePictureFile] = useState<File>();
+  const [nameError, setNameError] = useState<boolean>(false);
 
   const handleSubmit = () => {
-    if (!name) setValidName(false);
+    if (!name) {
+      setValidName(false);
+      setNameError(true);
+    }
 
     if (name && profilePictureFile) {
       setProfileName(name);
@@ -53,7 +58,14 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
               setProfilePictureFile={(file) => setProfilePictureFile(file)}
             />
           </section>
-          <footer>
+          <footer className="modal-footer">
+            {nameError && (
+              <ErrorMessage
+                className="text-preset-7"
+                iconSize="15.5px"
+                message={"Error: Could not obtain user name from database"}
+              />
+            )}
             <PrimaryButton
               homeButton={true}
               logButton={false}

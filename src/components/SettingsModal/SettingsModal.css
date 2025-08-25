@@ -15,6 +15,12 @@
   margin-inline: var(--spacing-250);
 }
 
+.modal-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+
 @media (min-width: 768px) {
   .modal-wrapper {
     top: 83px;
