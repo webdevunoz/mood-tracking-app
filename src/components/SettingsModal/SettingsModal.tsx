@@ -4,12 +4,33 @@ import FormWrapper from "../Form/FormWrapper/FormWrapper";
 import UploadImage from "../Form/UploadImage";
 import "./SettingsModal.css";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import { useUpdateUserProfile } from "../../CustomHooks/useUpdateUserProfile";
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 interface SettingsModalProps {
   onClose: () => void;
 }
 
 const SettingsModal = ({ onClose }: SettingsModalProps) => {
+  const { user } = useAuth();
+  const originalName = user?.name;
+  const { preview, uploading, error, setProfileName, handleFileUpload } =
+    useUpdateUserProfile();
+  const [name, setName] = useState<string | undefined>(undefined);
+  const [validName, setValidName] = useState<boolean>(true);
+  const [profilePictureFile, setProfilePictureFile] = useState<File>();
+
+  const handleSubmit = () => {
+    if (!name) setValidName(false);
+
+    if (name && profilePictureFile) {
+      setProfileName(name);
+      handleFileUpload(profilePictureFile);
+    }
+    onClose();
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-wrapper">
@@ -19,14 +40,24 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
             desc="Personalize your account with your name and photo."
           />
           <section>
-            <FormField label="Name" value="Lisa Maria" />
-            <UploadImage />
+            <FormField
+              label="Name"
+              defaultValue={originalName ?? ""}
+              onChange={(e) => setName(e.target.value)}
+              isValidName={validName}
+            />
+            <UploadImage
+              preview={preview}
+              uploading={uploading}
+              error={error}
+              setProfilePictureFile={(file) => setProfilePictureFile(file)}
+            />
           </section>
           <footer>
             <PrimaryButton
               homeButton={true}
               logButton={false}
-              onClick={onClose}
+              onClick={handleSubmit}
             >
               Save changes
             </PrimaryButton>

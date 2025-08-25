@@ -1,8 +1,7 @@
 import "./ProfilePopover.css";
 import React from "react";
 import "./ProfilePopover.css";
-import { useUserName } from "../../CustomHooks/useUserName";
-import { useUserEmail } from "../../CustomHooks/useUserEmail";
+import { useAuth } from "../../context/AuthContext";
 
 interface ProfilePopoverProps {
   ref: React.Ref<HTMLDivElement>;
@@ -15,8 +14,9 @@ const ProfilePopover = ({
   onClose,
   onSettingsClick,
 }: ProfilePopoverProps) => {
-  const name = useUserName();
-  const email = useUserEmail();
+  const { user } = useAuth();
+  const name = user?.name;
+  const email = user?.email;
 
   return (
     <div className="popover-wrapper">

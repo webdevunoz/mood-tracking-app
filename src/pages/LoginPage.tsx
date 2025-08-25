@@ -5,7 +5,7 @@ import FormField from "../components/Form/FormField/FormField";
 import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLogin } from "../CustomHooks/useLogin";
 import { useAuth } from "../context/AuthContext";
 
@@ -25,13 +25,6 @@ const LoginPage = () => {
   });
   const [displayError, setDisplayError] = useState<string>("");
 
-  useEffect(() => {
-    /* Assuming no error because succeeded, wait until done loading */
-    if (authReady && user) {
-      navigate("/home");
-    }
-  }, [authReady, user, navigate]);
-
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -43,7 +36,12 @@ const LoginPage = () => {
     else if (!password) errorMessage = "Password is required.";
 
     if (errorMessage) setDisplayError(errorMessage);
-    else await login({ email: email, password: password });
+    else {
+      await login({ email: email, password: password });
+      if (authReady && user) {
+        navigate("/home");
+      }
+    }
   };
 
   const getErrorMessage = (error: unknown): string =>

@@ -1,26 +1,26 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
-import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 interface UploadImageProps {
   preview: string | null;
   uploading: boolean;
   error: string | null;
-  handleFileChange: (file: File) => Promise<string | undefined>;
+  setProfilePictureFile: (file: File | undefined) => void;
 }
 
 const UploadImage = ({
   preview,
   uploading,
   error,
-  handleFileChange,
+  setProfilePictureFile,
 }: UploadImageProps) => {
-  const { setUser, user, authReady } = useContext(AuthContext);
   const [validationError, setValidationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { user, authReady } = useAuth();
+  const profilePicture = user?.profilePicture;
   const [displaySrc, setDisplaySrc] = useState(
-    "/src/assets/images/avatar-placeholder.svg"
+    profilePicture || "/src/assets/images/avatar-placeholder.svg"
   );
 
   // Show preview if available
@@ -54,12 +54,11 @@ const UploadImage = ({
 
     setValidationError(null);
 
-    const imageUrl = await handleFileChange(file);
+    const imageUrl = URL.createObjectURL(file);
 
     if (imageUrl && user) {
       setDisplaySrc(imageUrl);
-      // Merge new image into existing user object
-      setUser({ ...user, imageUrl });
+      setProfilePictureFile(file);
     }
   };
 

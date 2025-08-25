@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 export interface AuthUser {
-  uid: string | undefined;
+  _id: string | undefined;
   email: string | null | undefined;
   name: string;
   profilePicture?: string;

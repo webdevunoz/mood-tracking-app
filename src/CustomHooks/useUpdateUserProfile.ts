@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import axios from "axios";
 import { app } from "../lib/firebase"; 
-import { useAuth } from "../context/AuthContext";
+import { useAuth, type AuthUser } from "../context/AuthContext";
 
 export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) => void } = {})
  {
@@ -10,16 +10,17 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { user, authReady } = useAuth(); // user must include uid
+  const { setUser, user, authReady } = useAuth(); // Move useAuth to top-level of hook
   const storage = getStorage(app);
 
   const setProfileName = async (name: string | undefined) => {
+    // useAuth is now called at the top level
     if (!authReady || !user) {
       setError("User not signed in");
       return;
     }
 
-    const uid = user.uid;
+    const uid = user._id;
     if (!uid) {
       setError("User uid missing");
       return;
@@ -28,18 +29,21 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
     try {
      /* Handle profile name updating */
       await axios.put(`http://localhost:3000/api/user/${uid}/profile-name`, { name: name });
+
+      setUser(prev => ({...prev as AuthUser, name: name ?? ""}));
     } catch (err: unknown) {
        setError("Unexpected error: " + err);
     }
   }
 
-  const handleFileChange = async (file: File) => {
+  const handleFileUpload = async (file: File) => {
+    // useAuth is now called at the top level
     if (!authReady || !user) {
       setError("User not signed in");
       return;
     }
 
-    const uid = user.uid;
+    const uid = user._id;
     if (!uid) {
       setError("User uid missing");
       return;
@@ -53,12 +57,13 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
 
     try {
 
-      /* Handle profile picture updating */
-      const fileRef = ref(storage, `user_uploads/${uid}/${file.name}`);
+      /* Handle profile picture uploading */
+      const fileRef = ref(storage, `user_uploads/${uid}/profile-picture`);
       await uploadBytes(fileRef, file, metadata);
 
       const imageUrl = await getDownloadURL(fileRef);
       await axios.put(`http://localhost:3000/api/user/${uid}/profile-picture`, { imageUrl });
+      setUser(prev => ({...prev as AuthUser, profilePicture: imageUrl}));
       onSuccess?.(imageUrl);
 
       return imageUrl;
@@ -79,5 +84,5 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
     }
   };
 
-  return { preview, uploading, error, setProfileName, handleFileChange };
+  return { preview, uploading, error, setProfileName, handleFileUpload };
 }

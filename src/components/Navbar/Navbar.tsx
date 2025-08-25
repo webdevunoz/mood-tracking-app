@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import ProfilePopover from "../ProfilePopover/ProfilePopover";
 import SettingsModal from "../SettingsModal/SettingsModal";
-import { useUserPicture } from "../../CustomHooks/useUserPicture";
+import { useAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const profilePicture = useUserPicture();
+  const profilePicture = user?.profilePicture;
   const buttonRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 

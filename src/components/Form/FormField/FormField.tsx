@@ -6,6 +6,7 @@ interface FormFieldProps {
   label: string;
   type?: string;
   value?: string;
+  defaultValue?: string;
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   setValidity?: (isValid: boolean) => void;
@@ -16,6 +17,7 @@ const FormField = ({
   label,
   type = "text",
   value,
+  defaultValue,
   placeholder,
   onChange = () => null,
   setValidity = () => true,
@@ -36,6 +38,7 @@ const FormField = ({
         {label}
       </label>
       <input
+        defaultValue={defaultValue}
         value={value}
         onChange={(e) => handleChange(e)}
         id={type}

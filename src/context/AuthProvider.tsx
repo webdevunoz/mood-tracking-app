@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  onAuthStateChanged,
-  signOut,
-  type User as FirebaseUser,
-} from "firebase/auth";
+import { onAuthStateChanged, type User as FirebaseUser } from "firebase/auth";
 import { AuthContext, type AuthContextType } from "./AuthContext";
 import { auth } from "../lib/firebase";
 
@@ -29,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const profile = await res.json();
 
             setUser({
-              uid: fbUser.uid,
+              _id: fbUser.uid,
               email: fbUser.email,
               name: profile.name,
               profilePicture: profile.avatarUrl || fbUser.photoURL || undefined,
@@ -37,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } catch (err) {
             console.error("Failed to fetch user profile", err);
             setUser({
-              uid: fbUser.uid,
+              _id: fbUser.uid,
               email: fbUser.email,
               name: "",
               profilePicture: fbUser.photoURL || undefined,
@@ -52,8 +48,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     );
 
     return () => {
-      signOut(auth);
-      localStorage.removeItem("token"); // Clear old session (jwt) token before we try to fetch the user
       unsub();
     };
   }, []);

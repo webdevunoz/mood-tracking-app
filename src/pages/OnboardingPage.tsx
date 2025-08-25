@@ -6,29 +6,25 @@ import FormHeader from "../components/Form/FormHeader/FormHeader";
 import FormField from "../components/Form/FormField/FormField";
 import PrimaryButton from "../components/PrimaryButton/PrimaryButton";
 import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
-import { useUserId } from "../CustomHooks/useUserId";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUpdateUserProfile } from "../CustomHooks/useUpdateUserProfile";
 
 const OnboardingPage = () => {
   const navigate = useNavigate();
-  const { preview, uploading, error, setProfileName, handleFileChange } =
+
+  const { preview, uploading, error, setProfileName, handleFileUpload } =
     useUpdateUserProfile();
   const [name, setName] = useState<string | undefined>(undefined);
-  const id = useUserId();
-  const [userId, setUserId] = useState<string>("");
   const [validName, setValidName] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (id) setUserId(id);
-  }, [id]);
+  const [profilePictureFile, setProfilePictureFile] = useState<File>();
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
     if (!name) setValidName(false);
-    else {
+
+    if (name && profilePictureFile) {
       setProfileName(name);
+      handleFileUpload(profilePictureFile);
       navigate("/home");
     }
   };
@@ -50,14 +46,12 @@ const OnboardingPage = () => {
             onChange={(e) => setName(e.target.value)}
             isValidName={validName}
           />
-          {userId && (
-            <UploadImage
-              preview={preview}
-              uploading={uploading}
-              error={error}
-              handleFileChange={handleFileChange}
-            />
-          )}
+          <UploadImage
+            preview={preview}
+            uploading={uploading}
+            error={error}
+            setProfilePictureFile={(file) => setProfilePictureFile(file)}
+          />
         </section>
         <footer>
           <PrimaryButton

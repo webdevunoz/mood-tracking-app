@@ -1,7 +1,5 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { auth } from "../lib/firebase";
-import { signInWithCustomToken } from "firebase/auth";
+import { useState } from "react";
+import { useLogin } from "./useLogin";
 
 type SignupPayload = {
   email: string;
@@ -26,7 +24,7 @@ type UseSignupOptions = {
 
 
 export function useSignup({ endpoint = "http://localhost:3000/api/users", onSuccess, onError }: UseSignupOptions = {}) {
-  useContext(AuthContext);
+  const { login } = useLogin();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
 
@@ -41,15 +39,11 @@ export function useSignup({ endpoint = "http://localhost:3000/api/users", onSucc
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) {
-        throw new Error(`Signup failed: ${res.status} ${await res.text()}`);
-      }
-
       const data: SignupResponse = await res.json();
-      localStorage.setItem("token", data.token);
-
-      // 🔑 Sign into Firebase
-      await signInWithCustomToken(auth, data.firebaseToken);
+      if (!res.ok) 
+        throw new Error(`Signup failed: ${res.status} ${await res.text()}`);
+      
+      await login({email: payload.email, password: payload.password});
 
       onSuccess?.(data);
       return data;

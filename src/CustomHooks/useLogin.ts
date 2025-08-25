@@ -21,7 +21,7 @@ type LoginResponse = {
 };
 
 type UseLoginOptions = {
-  endpoint?: string; // default fallback
+  endpoint?: string;
   onSuccess?: (data: LoginResponse) => void;
   onError?: (error: unknown) => void;
 };
@@ -29,7 +29,7 @@ type UseLoginOptions = {
 export function useLogin({ endpoint = "http://localhost:3000/api/login", onSuccess, onError }:UseLoginOptions = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
-  const { setUser } = useAuth(); // from your context
+  const { setUser } = useAuth();
 
   const login = async ({ email, password }: LoginPayload) => {
     setLoading(true);
@@ -53,7 +53,7 @@ export function useLogin({ endpoint = "http://localhost:3000/api/login", onSucce
 
       // ⚡ Hydrate context with user profile
       setUser(data.user);
-
+      console.log("Logged in as: " + JSON.stringify(data.user, null, 2));
       onSuccess?.(data);
       return data;
     } catch (err) {
