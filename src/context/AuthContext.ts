@@ -5,6 +5,7 @@ export interface AuthUser {
   email: string | null | undefined;
   name: string;
   profilePicture?: string;
+  jwt?: string;
 }
 
 export interface AuthContextType {
