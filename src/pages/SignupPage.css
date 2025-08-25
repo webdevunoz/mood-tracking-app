@@ -12,5 +12,5 @@
 .signup-login-footer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-200);
 }

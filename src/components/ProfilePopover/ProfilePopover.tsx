@@ -2,6 +2,7 @@ import "./ProfilePopover.css";
 import React from "react";
 import "./ProfilePopover.css";
 import { useAuth } from "../../context/AuthContext";
+import { useSignOut } from "../../CustomHooks/useSignOut";
 
 interface ProfilePopoverProps {
   ref: React.Ref<HTMLDivElement>;
@@ -17,6 +18,7 @@ const ProfilePopover = ({
   const { user } = useAuth();
   const name = user?.name;
   const email = user?.email;
+  const { signOutUser } = useSignOut();
 
   return (
     <div className="popover-wrapper">
@@ -41,7 +43,7 @@ const ProfilePopover = ({
             />
             Settings
           </button>
-          <button className="menu-button">
+          <button className="menu-button" onClick={signOutUser}>
             <img
               src="/src/assets/images/icon-logout.svg"
               alt=""
