@@ -11,6 +11,7 @@ import LogMoodForm from "../../components/Home/LogMood/LogMoodForm/LogMoodForm";
 import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
 import LoggedSleep from "../../components/Home/LoggedSleep/LoggedSleep";
 import LoggedReflection from "../../components/Home/LoggedReflection/LoggedReflection";
+import { useAuth } from "../../context/AuthContext";
 
 const dataLogs: logData[] = [
   {
@@ -103,6 +104,8 @@ const HomePage = () => {
     reflection: "",
     tags: [],
   });
+  const { user } = useAuth();
+  const firstName = user?.name.split(" ")[0];
 
   useEffect(() => {
     if (loggedData) {
@@ -122,7 +125,7 @@ const HomePage = () => {
               id="heading-greet"
               className="text-preset-3-mobile md:text-preset-3 text-blue-600"
             >
-              Hello, Lisa!
+              Hello, {firstName}!
             </h3>
             <h1 className="text-preset-1-mobile md:text-preset-1 text-neutral-900">
               How are you feeling today?
