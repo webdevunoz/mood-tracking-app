@@ -7,17 +7,16 @@ import FormWrapper from "../components/Form/FormWrapper/FormWrapper";
 import ErrorMessage from "../components/Form/ErrorMessage/ErrorMessage";
 import { useState } from "react";
 import { useLogin } from "../CustomHooks/useLogin";
-import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
-  const { user, authReady } = useAuth();
   const { login, error } = useLogin({
     onSuccess: ({ user }) => {
       console.log("Logged in as:", user);
+      navigate("/home");
     },
     onError: (err) => {
       console.error("Login error:", err);
@@ -38,9 +37,6 @@ const LoginPage = () => {
     if (errorMessage) setDisplayError(errorMessage);
     else {
       await login({ email: email, password: password });
-      if (authReady && user) {
-        navigate("/home");
-      }
     }
   };
 

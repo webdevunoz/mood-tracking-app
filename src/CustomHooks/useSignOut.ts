@@ -15,6 +15,7 @@ export function useSignOut() {
       await signOut(auth);
 
       // 🧹 Clear local/session storage
+      localStorage.removeItem("loginTime");
       localStorage.removeItem("token"); // your API JWT
       sessionStorage.clear();
 
