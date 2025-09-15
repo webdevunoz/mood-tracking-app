@@ -1,9 +1,9 @@
-import type { logData } from "../../../App";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 import StyledIcon from "../../StyledIcon";
 import "./LoggedReflection.css";
 
 interface LoggedReflectionProps {
-  data: logData;
+  data: MoodData;
 }
 
 const LoggedReflection = ({ data }: LoggedReflectionProps) => {

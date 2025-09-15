@@ -1,9 +1,9 @@
-import type { logData } from "../../../App";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 import StyledIcon from "../../StyledIcon";
 import "./LoggedSleep.css";
 
 interface LoggedSleepProps {
-  data: logData;
+  data: MoodData;
 }
 
 const LoggedSleep = ({ data }: LoggedSleepProps) => {
@@ -17,7 +17,9 @@ const LoggedSleep = ({ data }: LoggedSleepProps) => {
         />
         <p className="text-preset-6 text-neutral-600">Sleep</p>
       </header>
-      <h3 className="text-preset-3 text-neutral-900">{data.hours} hours</h3>
+      <h3 className="text-preset-3 text-neutral-900">
+        {data.hoursSlept} hours
+      </h3>
     </div>
   );
 };

@@ -26,7 +26,7 @@ type UseLoginOptions = {
   onError?: (error: unknown) => void;
 };
 
-export function useLogin({ endpoint = "http://localhost:3000/api/login", onSuccess, onError }:UseLoginOptions = {}) {
+export function useLogin({ endpoint = "http://localhost:3000/api/login", onSuccess, onError }: UseLoginOptions = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const { setUser } = useAuth();

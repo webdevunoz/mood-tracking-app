@@ -22,9 +22,9 @@ const OnboardingPage = () => {
     e.preventDefault();
     if (!name) setValidName(false);
 
-    if (name && profilePictureFile) {
+    if (name) {
       setProfileName(name);
-      handleFileUpload(profilePictureFile);
+      if (profilePictureFile) handleFileUpload(profilePictureFile);
       navigate("/home");
     }
   };

@@ -7,13 +7,18 @@ import LogMoodStep2 from "../LogMoodStep2/LogMoodStep2";
 import LogMoodStep3 from "../LogMoodStep3/LogMoodStep3";
 import LogMoodStep4 from "../LogMoodStep4/LogMoodStep4";
 import ErrorMessage from "../../../Form/ErrorMessage/ErrorMessage";
-import type { logData } from "../../../../App";
+import {
+  useMoodData,
+  type MoodData,
+} from "../../../../CustomHooks/useMoodData";
 
 interface LogMoodFormProps {
   onClose: () => void;
 }
 
 const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
+  const { postMoodData } = useMoodData();
+
   const FORM_STEPS = 4;
   const [stepNum, setStepNum] = useState(1);
   const [formError, setFormError] = useState(false);
@@ -52,19 +57,18 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
   };
 
   /* Get the current month and day for logging form */
-  const currentDate = new Date();
+  /*   const currentDate = new Date();
   const monthName = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
     currentDate
   );
   const day = currentDate.getDate().toString().padStart(2, "0");
-  const formDate = `${monthName} ${day}`;
+  const formDate = `${monthName} ${day}`; */
 
-  const [form, setForm] = useState<logData>({
-    date: `${formDate}`,
+  const [form, setForm] = useState<MoodData>({
     mood: "",
-    tags: [],
+    hoursSlept: "",
     reflection: "",
-    hours: "",
+    tags: [],
   });
 
   const handleChange = (
@@ -87,6 +91,7 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
 
   const handleMoodFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await postMoodData(form);
     onClose();
     /*     try {
       await fetch("/api/submit", {
@@ -97,9 +102,6 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
     } catch (err) {
       console.error("Submission failed:", err);
     } */
-
-    localStorage.setItem("formData", JSON.stringify(form));
-    console.log("Saved to localStorage");
   };
 
   return (

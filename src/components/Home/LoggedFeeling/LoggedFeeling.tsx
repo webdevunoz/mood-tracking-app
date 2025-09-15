@@ -1,8 +1,8 @@
-import type { logData } from "../../../App";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 import "./LoggedFeeling.css";
 
 interface LoggedFeelingProps {
-  data: logData;
+  data: MoodData;
 }
 
 const LoggedFeeling = ({ data }: LoggedFeelingProps) => {

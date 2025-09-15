@@ -63,7 +63,7 @@ const SettingsModal = ({ onClose }: SettingsModalProps) => {
               <ErrorMessage
                 className="text-preset-7"
                 iconSize="15.5px"
-                message={"Error: Could not obtain user name from database"}
+                message={"Error: Could not obtain user name from database."}
               />
             )}
             <PrimaryButton

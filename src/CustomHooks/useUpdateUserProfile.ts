@@ -10,11 +10,10 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { setUser, user, authReady } = useAuth(); // Move useAuth to top-level of hook
+  const { setUser, user, authReady } = useAuth();
   const storage = getStorage(app);
 
   const setProfileName = async (name: string | undefined) => {
-    // useAuth is now called at the top level
     if (!authReady || !user) {
       setError("User not signed in");
       return;
@@ -37,7 +36,6 @@ export function useUpdateUserProfile({onSuccess}: { onSuccess?: (url: string) =>
   }
 
   const handleFileUpload = async (file: File) => {
-    // useAuth is now called at the top level
     if (!authReady || !user) {
       setError("User not signed in");
       return;

@@ -1,11 +1,11 @@
 import "./AverageContent.css";
-import type { logData } from "../../../App";
 import { useEffect, useState } from "react";
 import StyledIcon from "../../StyledIcon";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 
 interface AverageContentProps {
   variant: "mood" | "sleep";
-  dataLogs: logData[];
+  dataLogs: MoodData[];
 }
 
 const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {

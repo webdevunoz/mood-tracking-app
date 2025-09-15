@@ -34,7 +34,7 @@ const LogMoodStep4 = ({ hasFormError, handleChange }: LogMoodStep4Props) => {
               type="radio"
               value={option}
               key={option}
-              name="hours"
+              name="hoursSlept"
               onChange={handleChange}
               onClick={() => setSelected(option)}
             />
