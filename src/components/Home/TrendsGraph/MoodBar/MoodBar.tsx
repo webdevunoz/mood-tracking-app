@@ -1,16 +1,20 @@
+import type { MoodData } from "../../../../CustomHooks/useMoodData";
 import "./MoodBar.css";
-import type { logData } from "../../../../App";
 
 interface MoodBarProps {
-  log: logData;
+  log: MoodData;
   enableBarPopover: () => void;
   children: React.ReactNode;
 }
 
 const MoodBar = ({ log, enableBarPopover, children }: MoodBarProps) => {
-  const date = log.date;
+  const timestampDate = new Date(log.moodTimestamp);
+  const date = timestampDate.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+  });
   const mood = log.mood;
-  const hours = log.hours;
+  const hours = log.hoursSlept;
 
   const [month, day] = date.split(" ");
   let barHeight = "";

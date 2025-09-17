@@ -65,6 +65,7 @@ const LogMoodForm = ({ onClose }: LogMoodFormProps) => {
   const formDate = `${monthName} ${day}`; */
 
   const [form, setForm] = useState<MoodData>({
+    moodTimestamp: "",
     mood: "",
     hoursSlept: "",
     reflection: "",

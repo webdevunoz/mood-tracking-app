@@ -1,18 +1,18 @@
 import "./TrendsGraph.css";
 import MoodBar from "./MoodBar/MoodBar";
 import MoodScrollBar from "./MoodScrollBar/MoodScrollBar";
-import type { logData } from "../../../App";
 import { useEffect, useRef, useState } from "react";
 import BarPopover from "../BarPopover/BarPopover";
 import React from "react";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 
 interface TrendsGraph {
-  dataLogs: logData[];
+  moodData: MoodData[] | undefined;
 }
 
-const TrendsGraph = ({ dataLogs }: TrendsGraph) => {
+const TrendsGraph = ({ moodData }: TrendsGraph) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const initialPopoversArray = new Array(dataLogs.length).fill(false);
+  const initialPopoversArray = new Array(moodData?.length).fill(false);
   const [enableBarPopover, setEnableBarPopover] =
     useState<boolean[]>(initialPopoversArray);
   const yAxisLabels = ["9+", "7-8", "5-6", "3-4", "0-2"];
@@ -77,8 +77,8 @@ const TrendsGraph = ({ dataLogs }: TrendsGraph) => {
           </div>
         </div>
         <MoodScrollBar>
-          {dataLogs.map((log, i) => (
-            <React.Fragment key={log.date}>
+          {moodData?.map((log, i) => (
+            <React.Fragment key={log.moodTimestamp}>
               <MoodBar log={log} enableBarPopover={() => handlePopover(i)}>
                 {enableBarPopover[i] && <BarPopover index={i} log={log} />}
               </MoodBar>

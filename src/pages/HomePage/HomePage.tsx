@@ -11,24 +11,30 @@ import LoggedFeeling from "../../components/Home/LoggedFeeling/LoggedFeeling";
 import LoggedSleep from "../../components/Home/LoggedSleep/LoggedSleep";
 import LoggedReflection from "../../components/Home/LoggedReflection/LoggedReflection";
 import { useAuth } from "../../context/AuthContext";
+import { useMoodData, type MoodData } from "../../CustomHooks/useMoodData";
 
 const HomePage = () => {
   const [isLogMoodOpen, setIsLogMoodOpen] = useState(false);
   const [loggedTodaysMood, setLoggedTodaysMood] = useState(false);
-  const { user } = useAuth();
+  const [moodData, setMoodData] = useState<MoodData[]>();
+  const { getMoodData, error, loading } = useMoodData();
+  const { user, authReady } = useAuth();
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
     if (user?.name) setFirstName(user?.name.split(" ")[0]);
   }, [user?.name]);
 
-  /*   useEffect(() => {
-    if (loggedData) {
-      setLoggedTodaysMood(true);
-      const todayData = loggedData && JSON.parse(loggedData);
-      setLoggedTodayData(todayData);
-    }
-  }, [loggedData, setLoggedTodaysMood, setLoggedTodayData]); */
+  useEffect(() => {
+    const fetchMoodData = async () => {
+      console.log(loading, error);
+      if (!loading && !error) {
+        const data = (await getMoodData()) ?? [];
+        setMoodData(data.moodData);
+      }
+    };
+    if (user && authReady && user._id) fetchMoodData();
+  }, [user, authReady]);
 
   return (
     <>
@@ -74,17 +80,17 @@ const HomePage = () => {
         </header>
         <main id="home-main">
           <section>
-            {/* <HomeCard variant="averages">
-              <AverageContent variant="mood" dataLogs={dataLogs} />
-              <AverageContent variant="sleep" dataLogs={dataLogs} />
-            </HomeCard> */}
+            <HomeCard variant="averages">
+              <AverageContent variant="mood" moodData={moodData} />
+              <AverageContent variant="sleep" moodData={moodData} />
+            </HomeCard>
           </section>
           <section>
             <HomeCard variant="trends">
               <h3 className="text-preset-3-mobile md:text-preset-3 text-neutral-900">
                 Mood and sleep trends
               </h3>
-              {/* <TrendsGraph dataLogs={dataLogs} /> */}
+              <TrendsGraph moodData={moodData} />
             </HomeCard>
           </section>
         </main>

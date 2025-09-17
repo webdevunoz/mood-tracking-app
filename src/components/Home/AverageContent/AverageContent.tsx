@@ -5,10 +5,10 @@ import type { MoodData } from "../../../CustomHooks/useMoodData";
 
 interface AverageContentProps {
   variant: "mood" | "sleep";
-  dataLogs: MoodData[];
+  moodData: MoodData[] | undefined;
 }
 
-const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
+const AverageContent = ({ variant, moodData }: AverageContentProps) => {
   const initialStatus =
     variant === "mood" ? "Keep tracking!" : "Not enough data yet!";
   const initialIcon = "";
@@ -48,26 +48,28 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
     const checkAvg = (map: Record<string, number>, offsetNum = 5) => {
       let sum = 0,
         count = 0;
-      for (
-        let i = Math.max(0, dataLogs.length - offsetNum);
-        i < dataLogs.length - (offsetNum - 5);
-        i++
-      ) {
-        let val;
-        if (variant === "mood") val = map[dataLogs[i].mood!];
-        else val = map[dataLogs[i].hours!];
+      if (moodData) {
+        for (
+          let i = Math.max(0, moodData.length - offsetNum);
+          i < moodData.length - (offsetNum - 5);
+          i++
+        ) {
+          let val;
+          if (variant === "mood") val = map[moodData[i].mood!];
+          else val = map[moodData[i].hoursSlept!];
 
-        if (typeof val === "number") {
-          sum += val;
-          count++;
+          if (typeof val === "number") {
+            sum += val;
+            count++;
+          }
         }
       }
       const avg = Math.round(sum / (count || 1));
       return avg;
     };
 
-    if (dataLogs)
-      if (dataLogs.length >= 5) {
+    if (moodData)
+      if (moodData.length >= 5) {
         /* If there is at least 5 logs */
         setEnoughData(true);
         /* Get and set the average status */
@@ -111,7 +113,7 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
         setBgColor(moodColor);
 
         /* Get and set average comparison text and icon */
-        if (dataLogs.length >= 6) {
+        if (moodData.length >= 6) {
           let prevAvgStatusValue;
           if (variant === "mood") prevAvgStatusValue = checkAvg(moodMap, 6);
           else prevAvgStatusValue = checkAvg(hoursMap, 6);
@@ -141,7 +143,7 @@ const AverageContent = ({ variant, dataLogs }: AverageContentProps) => {
         setEnoughData(false);
       }
   }, [
-    dataLogs,
+    moodData,
     variant,
     initialStatus,
     inititalBgColor,

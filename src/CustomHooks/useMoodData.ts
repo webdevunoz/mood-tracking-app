@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export type MoodData = {
+  moodTimestamp: string;
   mood: string;
   hoursSlept: string;
   reflection: string;
@@ -62,5 +63,40 @@ export function useMoodData({
     }
   };
 
-  return { postMoodData, loading, error };
+  const getMoodData = async () => {
+  if (!authReady || !user) {
+    setError("User not signed in");
+    return;
+  }
+
+  const uid = user._id;
+  if (!uid) {
+    setError("User uid missing");
+    return;
+  }
+
+  setLoading(true);
+  setError(null);
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/user/${uid}/moodData`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Fetching MoodData failed");
+
+    onSuccess?.(data);
+    return data;
+  } catch (err) {
+    setError(err);
+    onError?.(err);
+    return null;
+  } finally {
+    setLoading(false);
+  }
+};
+
+  return { postMoodData, getMoodData, loading, error };
 }
