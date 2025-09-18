@@ -13,8 +13,7 @@ const MoodBar = ({ log, enableBarPopover, children }: MoodBarProps) => {
     month: "long",
     day: "numeric",
   });
-  const mood = log.mood;
-  const hours = log.hoursSlept;
+  const { mood, hoursSlept: hours } = log;
 
   const [month, day] = date.split(" ");
   let barHeight = "";

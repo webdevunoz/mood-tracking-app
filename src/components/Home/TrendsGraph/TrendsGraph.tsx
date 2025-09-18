@@ -12,9 +12,7 @@ interface TrendsGraph {
 
 const TrendsGraph = ({ moodData }: TrendsGraph) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const initialPopoversArray = new Array(moodData?.length).fill(false);
-  const [enableBarPopover, setEnableBarPopover] =
-    useState<boolean[]>(initialPopoversArray);
+  const [enableBarPopover, setEnableBarPopover] = useState<boolean[]>([]);
   const yAxisLabels = ["9+", "7-8", "5-6", "3-4", "0-2"];
 
   useEffect(() => {
@@ -23,9 +21,9 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
 
       if (target.closest(".scroll-thumb-area")) return;
 
-      if (containerRef.current) {
-        if (containerRef.current.contains(target)) {
-          setEnableBarPopover(initialPopoversArray);
+      if (containerRef.current && containerRef.current.contains(target)) {
+        if (moodData) {
+          setEnableBarPopover(new Array(moodData.length).fill(false));
         }
       }
     };
@@ -35,6 +33,11 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (!moodData) return;
+    setEnableBarPopover(new Array(moodData.length).fill(false));
+  }, [moodData]);
 
   const handlePopover = (index: number) => {
     setEnableBarPopover((prev) =>
@@ -78,7 +81,7 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
         </div>
         <MoodScrollBar>
           {moodData?.map((log, i) => (
-            <React.Fragment key={log.moodTimestamp}>
+            <React.Fragment key={i}>
               <MoodBar log={log} enableBarPopover={() => handlePopover(i)}>
                 {enableBarPopover[i] && <BarPopover index={i} log={log} />}
               </MoodBar>

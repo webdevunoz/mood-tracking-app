@@ -1,8 +1,8 @@
-import type { logData } from "../../../App";
+import type { MoodData } from "../../../CustomHooks/useMoodData";
 import "./BarPopover.css";
 
 interface BarPopoverProps {
-  log: logData;
+  log: MoodData;
   index: number;
 }
 
@@ -26,7 +26,7 @@ const BarPopover = ({ log, index }: BarPopoverProps) => {
     {
       title: "Sleep",
       value: (
-        <p className="text-preset-7 text-neutral-900">{log.hours} hours</p>
+        <p className="text-preset-7 text-neutral-900">{log.hoursSlept} hours</p>
       ),
     },
     {
@@ -46,27 +46,27 @@ const BarPopover = ({ log, index }: BarPopoverProps) => {
   ];
 
   const arrowTop =
-    log.hours === "9+"
+    log.hoursSlept === "9+"
       ? "17px"
-      : log.hours === "7-8"
+      : log.hoursSlept === "7-8"
       ? "69px"
-      : log.hours === "5-6"
+      : log.hoursSlept === "5-6"
       ? "123px"
-      : log.hours === "3-4"
+      : log.hoursSlept === "3-4"
       ? "173px"
-      : log.hours === "0-2"
+      : log.hoursSlept === "0-2"
       ? "204px"
       : "";
 
   const arrowShadowTop =
-    log.hours !== "0-2"
+    log.hoursSlept !== "0-2"
       ? `calc(${arrowTop} - 5.7px)`
       : `calc(${arrowTop} + 19.2px)`;
 
   const isLeftPopover = index < 4;
   const popoverArrowLeft = isLeftPopover ? "-6px" : "170px";
   const popoverLeft = isLeftPopover ? "48px" : "-183px";
-  const popoverTop = log.hours === "0-2" ? "25px" : "0";
+  const popoverTop = log.hoursSlept === "0-2" ? "25px" : "0";
   const arrowPath =
     "M2.46737 0.206792L10.5471 4.55976C11.0692 4.84058 11.3815 5.34655 11.3828 5.91319L11.3828 5.91569C11.3828 6.47982 11.0731 6.98392 10.5557 7.26534L2.47531 11.6727C1.95784 11.9548 1.34177 11.9548 0.825625 11.6727C0.308817 11.3907 0.000452085 10.8859 0.00045211 10.3224L0.000452493 1.56209C0.000452517 0.999834 0.307495 0.495739 0.821657 0.213672C1.33516 -0.0683961 1.95056 -0.0715222 2.46737 0.206792Z";
   return (
