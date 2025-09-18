@@ -15,10 +15,10 @@ import { useMoodData, type MoodData } from "../../CustomHooks/useMoodData";
 
 const HomePage = () => {
   const [isLogMoodOpen, setIsLogMoodOpen] = useState(false);
-  const [loggedTodaysMood, setLoggedTodaysMood] = useState(false);
+  const [hasLoggedTodaysMood, setHasLoggedTodaysMood] = useState(false);
   const [moodData, setMoodData] = useState<MoodData[]>();
   const { getMoodData, error, loading } = useMoodData();
-  const { user, authReady } = useAuth();
+  const { user } = useAuth();
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
@@ -27,14 +27,38 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchMoodData = async () => {
-      console.log(loading, error);
       if (!loading && !error) {
         const data = (await getMoodData()) ?? [];
         setMoodData(data.moodData);
       }
     };
-    if (user && authReady && user._id) fetchMoodData();
-  }, [user, authReady]);
+    if (user) {
+      fetchMoodData();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const loggedMoodToday = (moodData: MoodData[]): boolean => {
+      if (!Array.isArray(moodData) || moodData.length === 0) return false;
+
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
+
+      const lastEntry = moodData[moodData.length - 1];
+      const entryDate = new Date(lastEntry.moodTimestamp);
+
+      return (
+        entryDate.getFullYear() === todayYear &&
+        entryDate.getMonth() === todayMonth &&
+        entryDate.getDate() === todayDate
+      );
+    };
+
+    if (!hasLoggedTodaysMood && moodData && moodData?.length > 0)
+      setHasLoggedTodaysMood(loggedMoodToday(moodData));
+  }, [moodData]);
 
   return (
     <>
@@ -53,7 +77,7 @@ const HomePage = () => {
             </h1>
             <TodaysDate />
           </section>
-          {!loggedTodaysMood && (
+          {!hasLoggedTodaysMood && (
             <PrimaryButton
               logButton={true}
               homeButton={true}
@@ -62,7 +86,7 @@ const HomePage = () => {
               Log today's mood
             </PrimaryButton>
           )}
-          {loggedTodaysMood && (
+          {hasLoggedTodaysMood && (
             <section id="section-mood-logged">
               {/* <HomeCard variant="feeling">
                 <LoggedFeeling data={moodData.mood} />

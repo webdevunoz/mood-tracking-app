@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { signInWithCustomToken } from "firebase/auth";
 import { auth } from "../lib/firebase";
-import { useAuth } from "../context/AuthContext"; // assuming you expose setUser
+import { useAuth, type AuthUser } from "../context/AuthContext"; // assuming you expose setUser
 
 
 type LoginPayload = {
@@ -43,17 +43,18 @@ export function useLogin({ endpoint = "http://localhost:3000/api/login", onSucce
       });
 
       const data = await res.json();
+      const {jwt, user, firebaseCustomToken} = data;
       if (!res.ok) throw new Error(data.error || "Login failed");
 
       // 🔐 Sign into Firebase for Storage access
-      await signInWithCustomToken(auth, data.firebaseCustomToken);
+      await signInWithCustomToken(auth, firebaseCustomToken);
 
       // 🧠 Store your app JWT for API calls
-      localStorage.setItem("token", data.jwt);
+      localStorage.setItem("token", jwt);
 
       // ⚡ Hydrate context with user profile
-      setUser(data.user);
-      console.log("Logged in as: " + JSON.stringify(data.user, null, 2));
+      setUser(prev => ({... (prev as AuthUser), ... user, jwt,}));
+      console.log("Logged in as: " + JSON.stringify(user, null, 2));
       onSuccess?.(data);
       return data;
     } catch (err) {

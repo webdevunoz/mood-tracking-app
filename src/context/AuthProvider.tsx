@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   onIdTokenChanged,
   signOut,
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthContextType["user"]>(null);
+  const hydratedRef = useRef(false);
   const [authReady, setAuthReady] = useState(false);
   const navigate = useNavigate();
 
@@ -23,6 +24,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.removeItem("loginTime"); // 🧼 clear session timestamp
           setAuthReady(true);
           return;
+        }
+
+        // ✅ Guard: skip if already hydrated
+        if (hydratedRef.current) {
+          setAuthReady(true);
+          return; // ✅ skip refresh
         }
 
         try {
@@ -52,8 +59,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             name: userData.name,
             profilePicture:
               userData.profilePicture || fbUser.photoURL || undefined,
+            moodData: userData.moodData,
             jwt,
           });
+          hydratedRef.current = true;
         } catch (err) {
           console.error("Token sync failed", err);
 
@@ -63,6 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             email: fbUser.email,
             name: "",
             profilePicture: fbUser.photoURL || undefined,
+            moodData: [],
           });
 
           localStorage.removeItem("token");

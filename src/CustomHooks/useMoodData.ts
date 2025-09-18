@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth, type AuthUser } from "../context/AuthContext";
 
 export type MoodData = {
   moodTimestamp: string;
@@ -50,8 +50,8 @@ export function useMoodData({
       if (!res.ok) throw new Error(data.error || "Posting MoodData failed");
      
       // Fill the user with the posted mood data
-      setUser(data.user);
-
+      setUser(prev => ({...(prev as AuthUser), moodData: data.moodData,}));
+      
       onSuccess?.(data);
       return data;
     } catch (err) {
