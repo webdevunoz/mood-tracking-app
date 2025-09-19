@@ -12,19 +12,26 @@ interface TrendsGraph {
 
 const TrendsGraph = ({ moodData }: TrendsGraph) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const barRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [enableBarPopover, setEnableBarPopover] = useState<boolean[]>([]);
   const yAxisLabels = ["9+", "7-8", "5-6", "3-4", "0-2"];
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-
       if (target.closest(".scroll-thumb-area")) return;
 
-      if (containerRef.current && containerRef.current.contains(target)) {
-        if (moodData) {
-          setEnableBarPopover(new Array(moodData.length).fill(false));
-        }
+      // Find the currently active popover index
+      const activeIndex = enableBarPopover.findIndex((val) => val);
+
+      // If no popover is open, do nothing
+      if (activeIndex === -1) return;
+
+      const activeBarRef = barRefs.current[activeIndex];
+
+      // If the click is outside the active bar, close it
+      if (activeBarRef && !activeBarRef.contains(target)) {
+        setEnableBarPopover(new Array(moodData?.length || 0).fill(false));
       }
     };
 
@@ -32,7 +39,7 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [enableBarPopover, moodData]);
 
   useEffect(() => {
     if (!moodData) return;
@@ -40,9 +47,11 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
   }, [moodData]);
 
   const handlePopover = (index: number) => {
-    setEnableBarPopover((prev) =>
-      prev.map((val, i) => (i === index ? !val : val))
-    );
+    setEnableBarPopover((prev) => prev.map((_, i) => i === index));
+  };
+
+  const setBarRef = (index: number) => (el: HTMLDivElement | null) => {
+    barRefs.current[index] = el;
   };
 
   return (
@@ -82,7 +91,11 @@ const TrendsGraph = ({ moodData }: TrendsGraph) => {
         <MoodScrollBar>
           {moodData?.map((log, i) => (
             <React.Fragment key={i}>
-              <MoodBar log={log} enableBarPopover={() => handlePopover(i)}>
+              <MoodBar
+                ref={setBarRef(i)}
+                log={log}
+                enableBarPopover={() => handlePopover(i)}
+              >
                 {enableBarPopover[i] && <BarPopover index={i} log={log} />}
               </MoodBar>
             </React.Fragment>
