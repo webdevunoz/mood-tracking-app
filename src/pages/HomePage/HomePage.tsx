@@ -86,18 +86,18 @@ const HomePage = () => {
               Log today's mood
             </PrimaryButton>
           )}
-          {hasLoggedTodaysMood && (
+          {hasLoggedTodaysMood && moodData && (
             <section id="section-mood-logged">
-              {/* <HomeCard variant="feeling">
-                <LoggedFeeling data={moodData.mood} />
-              </HomeCard> */}
+              <HomeCard variant="feeling">
+                <LoggedFeeling todayData={moodData[moodData.length - 1]} />
+              </HomeCard>
               <div id="sleep-reflection-container">
-                {/* <HomeCard variant="sleep">
-                  <LoggedSleep data={loggedTodayData} />
+                <HomeCard variant="sleep">
+                  <LoggedSleep todayData={moodData[moodData.length - 1]} />
                 </HomeCard>
                 <HomeCard variant="reflection">
-                  <LoggedReflection data={loggedTodayData} />
-                </HomeCard> */}
+                  <LoggedReflection todayData={moodData[moodData.length - 1]} />
+                </HomeCard>
               </div>
             </section>
           )}

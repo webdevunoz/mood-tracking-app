@@ -2,10 +2,10 @@ import type { MoodData } from "../../../CustomHooks/useMoodData";
 import "./LoggedFeeling.css";
 
 interface LoggedFeelingProps {
-  data: MoodData;
+  todayData: MoodData;
 }
 
-const LoggedFeeling = ({ data }: LoggedFeelingProps) => {
+const LoggedFeeling = ({ todayData }: LoggedFeelingProps) => {
   const kebabIconName = (s: string | undefined) =>
     s?.replace(/\s+/g, "-").toLowerCase();
 
@@ -17,7 +17,7 @@ const LoggedFeeling = ({ data }: LoggedFeelingProps) => {
     "Very Sad": "You are stronger than you think; the storm will pass.",
   };
 
-  const moodQuote = moodQuotes[data.mood ?? ""] ?? "";
+  const moodQuote = moodQuotes[todayData.mood ?? ""] ?? "";
 
   return (
     <div className="log-feeling-wrapper">
@@ -25,11 +25,13 @@ const LoggedFeeling = ({ data }: LoggedFeelingProps) => {
         <h3 className="text-preset-3 text-neutral-900 opacity-70">
           I'm feeling
         </h3>
-        <h2 className="text-preset-2 text-neutral-900">{data.mood}</h2>
+        <h2 className="text-preset-2 text-neutral-900">{todayData.mood}</h2>
       </header>
       <img
         className="log-feeling-icon"
-        src={`/src/assets/images/icon-${kebabIconName(data.mood)}-color.svg`}
+        src={`/src/assets/images/icon-${kebabIconName(
+          todayData.mood
+        )}-color.svg`}
       />
       <div className="log-feeling-quote-wrapper">
         <img

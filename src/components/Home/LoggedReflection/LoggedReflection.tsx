@@ -3,10 +3,10 @@ import StyledIcon from "../../StyledIcon";
 import "./LoggedReflection.css";
 
 interface LoggedReflectionProps {
-  data: MoodData;
+  todayData: MoodData;
 }
 
-const LoggedReflection = ({ data }: LoggedReflectionProps) => {
+const LoggedReflection = ({ todayData }: LoggedReflectionProps) => {
   return (
     <div className="log-reflection-wrapper">
       <header className="log-reflection-header">
@@ -18,10 +18,10 @@ const LoggedReflection = ({ data }: LoggedReflectionProps) => {
         <p className="text-preset-6 text-neutral-600">Reflection of the day</p>
       </header>
       <p className="log-reflection-text text-preset-6 text-neutral-900">
-        {data.reflection}
+        {todayData.reflection}
       </p>
       <ul className="log-tag-list text-preset-6-italic text-neutral-600">
-        {data.tags?.map((tag, i) => (
+        {todayData.tags?.map((tag, i) => (
           <li key={i}>#{tag}</li>
         ))}
       </ul>

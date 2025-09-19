@@ -3,10 +3,10 @@ import StyledIcon from "../../StyledIcon";
 import "./LoggedSleep.css";
 
 interface LoggedSleepProps {
-  data: MoodData;
+  todayData: MoodData;
 }
 
-const LoggedSleep = ({ data }: LoggedSleepProps) => {
+const LoggedSleep = ({ todayData }: LoggedSleepProps) => {
   return (
     <div className="log-sleep-wrapper">
       <header className="log-sleep-header">
@@ -18,7 +18,7 @@ const LoggedSleep = ({ data }: LoggedSleepProps) => {
         <p className="text-preset-6 text-neutral-600">Sleep</p>
       </header>
       <h3 className="text-preset-3 text-neutral-900">
-        {data.hoursSlept} hours
+        {todayData.hoursSlept} hours
       </h3>
     </div>
   );
